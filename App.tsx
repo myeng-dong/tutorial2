@@ -1,7 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React from 'react';
-import { useColorScheme, View } from 'react-native';
+import React, { useEffect } from 'react';
+import { Platform, StatusBar, useColorScheme, View } from 'react-native';
 
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import MainScreen from './src/screen';
@@ -15,6 +15,13 @@ const App = () => {
     };
 
     const Stack = createNativeStackNavigator();
+    useEffect(() => {
+        StatusBar.setBarStyle('dark-content', true);
+        if (Platform.OS == 'android') {
+            StatusBar.setTranslucent(true);
+            StatusBar.setBackgroundColor('transparent');
+        }
+    }, []);
 
     return <AppStackNavigationFNC />;
 };
@@ -25,11 +32,11 @@ const App = () => {
 // };
 // type A = typeof test;
 // type B = keyof typeof test;
-type A = 'a' | 'b' | 'c';
-const test: { [_ in A]: string } = {
-    a: 'qwe',
-    b: '123',
-    c: 'aaa',
-};
+// type A = 'a' | 'b' | 'c';
+// const test: { [_ in A]: string } = {
+//     a: 'qwe',
+//     b: '123',
+//     c: 'aaa',
+// };
 
 export default App;
