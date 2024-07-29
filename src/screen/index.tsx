@@ -25,6 +25,7 @@ const MainScreen = () => {
                         marginVertical: widthScale(20),
                         backgroundColor: 'rgba(235, 238, 250, 0.96)',
                         borderRadius: widthScale(10),
+                        justifyContent: 'center',
                     })}
                     onPress={() => {
                         navigation.navigate('NavigationAnimateParentScreen', {});
@@ -35,7 +36,7 @@ const MainScreen = () => {
                             fontWeight: 700,
                             textAlign: 'center',
                         }}>
-                        {`Animated elements ${'\n'}between screens!`}
+                        {`Screen Animate`}
                     </Text>
                 </Pressable>
                 <Pressable
@@ -44,9 +45,10 @@ const MainScreen = () => {
                         marginVertical: widthScale(20),
                         backgroundColor: 'rgba(235, 238, 250, 0.96)',
                         borderRadius: widthScale(10),
+                        justifyContent: 'center',
                     })}
                     onPress={() => {
-                        navigation.navigate('NavigationAnimateParentScreen', {});
+                        navigation.navigate('MarkerCoordinateScreen', {});
                     }}>
                     <Text
                         style={{
@@ -63,6 +65,7 @@ const MainScreen = () => {
                         marginVertical: widthScale(20),
                         backgroundColor: 'rgba(235, 238, 250, 0.96)',
                         borderRadius: widthScale(10),
+                        justifyContent: 'center',
                     })}
                     onPress={() => {
                         navigation.navigate('MyCalendarScreen', {});
@@ -74,6 +77,46 @@ const MainScreen = () => {
                             textAlign: 'center',
                         }}>
                         {`This is Custom Calendar ${'\n'} You want see to click this!`}
+                    </Text>
+                </Pressable>
+                <Pressable
+                    style={getWidthHeight(164, 175, {
+                        padding: widthScale(20),
+                        marginVertical: widthScale(20),
+                        backgroundColor: 'rgba(235, 238, 250, 0.96)',
+                        borderRadius: widthScale(10),
+                        justifyContent: 'center',
+                    })}
+                    onPress={() => {
+                        navigation.navigate('NestedScrollViewScreen', {});
+                    }}>
+                    <Text
+                        style={{
+                            fontSize: widthScale(18),
+                            fontWeight: 700,
+                            textAlign: 'center',
+                        }}>
+                        {`NestedScrollViewScreen`}
+                    </Text>
+                </Pressable>
+                <Pressable
+                    style={getWidthHeight(164, 175, {
+                        padding: widthScale(20),
+                        marginVertical: widthScale(20),
+                        backgroundColor: 'rgba(235, 238, 250, 0.96)',
+                        borderRadius: widthScale(10),
+                        justifyContent: 'center',
+                    })}
+                    onPress={() => {
+                        navigation.navigate('CustomModalScreen', {});
+                    }}>
+                    <Text
+                        style={{
+                            fontSize: widthScale(18),
+                            fontWeight: 700,
+                            textAlign: 'center',
+                        }}>
+                        {`React Native Modal`}
                     </Text>
                 </Pressable>
             </View>

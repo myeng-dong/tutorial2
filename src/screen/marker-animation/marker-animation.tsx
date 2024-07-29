@@ -3,8 +3,10 @@ import { Platform, Pressable, StatusBar, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { NavigationParamsList } from '../../navigation/navigaions';
+import FastImage from 'react-native-fast-image';
+import { getWidthHeight } from '../../common/util';
 
-const MainScreen = () => {
+const MarkerCoordinateScreen = () => {
     const insets = useSafeAreaInsets();
     const navigation = useNavigation<NavigationProp<NavigationParamsList>>();
 
@@ -16,9 +18,14 @@ const MainScreen = () => {
                     flex: 1,
                     flexDirection: 'row',
                     justifyContent: 'space-evenly',
-                }}></View>
+                }}>
+                <FastImage
+                    style={getWidthHeight(375, 375)}
+                    source={require('../../assets/icons/marker-back-icon.png')}
+                />
+            </View>
         </View>
     );
 };
 
-export default MainScreen;
+export default MarkerCoordinateScreen;

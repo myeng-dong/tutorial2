@@ -1,25 +1,19 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
-    Image,
-    PanResponderGestureState,
+    Animated as NativeAnimated,
+    NativeScrollEvent,
+    NativeSyntheticEvent,
+    PanResponder,
     Platform,
     Pressable,
     ScrollView,
     StatusBar,
     Text,
     View,
-    Animated as NativeAnimated,
-    PanResponder,
-    NativeSyntheticEvent,
-    NativeScrollEvent,
 } from 'react-native';
+import Animated from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { getNavigation, getWidthHeight, widthScale } from '../../common/util';
-import { NavigationProp, useNavigation } from '@react-navigation/native';
-import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
-import { NavigationParamsList } from '../../navigation/navigaions';
-import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
-import GestureRecognizer from 'react-native-swipe-gestures';
+import { getNavigation, widthScale } from '../../common/util';
 
 export const NavigationAnimateParentScreen = () => {
     const insets = useSafeAreaInsets();
@@ -62,6 +56,11 @@ export const NavigationAnimateChildrenScreen = () => {
     const [isScroll, setIsScroll] = useState(false);
     const pan = useRef(new NativeAnimated.ValueXY()).current;
     const fadeAnim = React.useRef(new NativeAnimated.Value(1)).current;
+    const [page, setPage] = useState(0);
+
+    useEffect(() => {
+        console.log(pan.x);
+    }, [pan]);
 
     useEffect(() => {
         pan.addListener((value) => {
@@ -104,93 +103,113 @@ export const NavigationAnimateChildrenScreen = () => {
             ).start();
         },
     });
+    const panResponder2 = PanResponder.create({
+        onStartShouldSetPanResponder: () => true,
+        onPanResponderMove: NativeAnimated.event([
+            null,
+            {
+                dx: pan.x,
+            },
+        ]),
+        onPanResponderRelease: () => {
+            NativeAnimated.spring(
+                pan, // Auto-multiplexed
+                { toValue: { x: 0, y: 0 }, useNativeDriver: false }, // Back to zero
+            ).start();
+        },
+    });
 
     const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-        const { contentOffset } = event.nativeEvent;
-        // console.log('Current scroll position:', widthScale(contentOffset.x));
+        const contentWidth = widthScale(375);
+        setPage(event.nativeEvent.contentOffset.x / contentWidth);
     };
 
     return (
-        <View style={{ flex: 1, backgroundColor: '#fff' }}>
+        <View style={{ flex: 1, backgroundColor: '#000' }}>
             {Platform.OS == 'ios' && <StatusBar barStyle={'dark-content'} />}
 
-            <View style={[{ flex: 1, backgroundColor: '#fff' }]}>
-                <ScrollView
-                    horizontal={true}
-                    scrollEnabled={scrollEnabled}
-                    style={{}}
-                    showsHorizontalScrollIndicator={false}
-                    pagingEnabled={true}
-                    snapToInterval={widthScale(375)}
-                    onScrollBeginDrag={(eve) => {
-                        console.log('start');
-                        setIsScroll(true);
-                    }}
-                    onScrollEndDrag={(eve) => {
-                        console.log('end');
-                        setIsScroll(false);
-                    }}
-                    onScroll={handleScroll}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <View style={[{ flex: 1, backgroundColor: '#000', alignItems: 'center', justifyContent: 'center' }]}>
+                <ScrollView horizontal nestedScrollEnabled>
+                    <ScrollView
+                        horizontal={true}
+                        style={{}}
+                        scrollEnabled={false}
+                        showsHorizontalScrollIndicator={false}
+                        pagingEnabled={true}
+                        nestedScrollEnabled
+                        snapToInterval={widthScale(375)}
+                        onScrollBeginDrag={(eve) => {
+                            console.log('start');
+                            setIsScroll(true);
+                        }}
+                        onScrollEndDrag={(eve) => {
+                            console.log('end');
+                            setIsScroll(false);
+                        }}
+                        removeClippedSubviews
+                        onScroll={handleScroll}>
                         <NativeAnimated.View
-                            style={{
-                                flex: 1,
-                                justifyContent: 'center',
-                                opacity: fadeAnim,
-                                backgroundColor: '#000',
-                            }}>
+                            style={{ flexDirection: 'row', alignItems: 'center' }}
+                            {...(panResponder2.panHandlers, panResponder.panHandlers)}>
                             <NativeAnimated.View
-                                key={10}
-                                {...panResponder.panHandlers}
-                                style={[
-                                    {
-                                        width: widthScale(375),
-                                    },
-                                    pan.getLayout(),
-                                ]}>
-                                <Animated.Image
-                                    source={{
-                                        uri: 'https://picsum.photos/id/39/200',
-                                    }}
-                                    style={{
-                                        width: widthScale(375),
-                                        height: widthScale(375),
-                                    }}
-                                    resizeMode="contain"
-                                    sharedTransitionTag="tag"
-                                />
+                                style={{
+                                    flex: 1,
+                                    justifyContent: 'center',
+                                    opacity: fadeAnim,
+                                    backgroundColor: '#000',
+                                }}>
+                                <NativeAnimated.View
+                                    key={10}
+                                    style={[
+                                        {
+                                            width: widthScale(375),
+                                        },
+                                        pan.getLayout(),
+                                    ]}>
+                                    <Animated.Image
+                                        source={{
+                                            uri: 'https://picsum.photos/id/39/200',
+                                        }}
+                                        style={{
+                                            width: widthScale(375),
+                                            height: widthScale(375),
+                                        }}
+                                        resizeMode="contain"
+                                        sharedTransitionTag="tag"
+                                    />
+                                </NativeAnimated.View>
+                            </NativeAnimated.View>
+                            <NativeAnimated.View
+                                style={{
+                                    flex: 1,
+                                    justifyContent: 'center',
+                                    opacity: fadeAnim,
+                                    backgroundColor: '#000',
+                                }}>
+                                <NativeAnimated.View
+                                    key={10}
+                                    {...panResponder.panHandlers}
+                                    style={[
+                                        {
+                                            width: widthScale(375),
+                                        },
+                                        pan.getLayout(),
+                                    ]}>
+                                    <Animated.Image
+                                        source={{
+                                            uri: 'https://img.freepik.com/free-photo/beautiful-tree-canopy-perspective-with-nature-landscape_23-2151305154.jpg?size=626&ext=jpg&ga=GA1.1.677716587.1722231872&semt=ais_user',
+                                        }}
+                                        style={{
+                                            width: widthScale(375),
+                                            height: widthScale(375),
+                                        }}
+                                        resizeMode="contain"
+                                        // sharedTransitionTag="tag"
+                                    />
+                                </NativeAnimated.View>
                             </NativeAnimated.View>
                         </NativeAnimated.View>
-                        <NativeAnimated.View
-                            style={{
-                                flex: 1,
-                                justifyContent: 'center',
-                                opacity: fadeAnim,
-                                backgroundColor: '#000',
-                            }}>
-                            <NativeAnimated.View
-                                key={10}
-                                {...panResponder.panHandlers}
-                                style={[
-                                    {
-                                        width: widthScale(375),
-                                    },
-                                    pan.getLayout(),
-                                ]}>
-                                <Animated.Image
-                                    source={{
-                                        uri: 'https://picsum.photos/id/39/200',
-                                    }}
-                                    style={{
-                                        width: widthScale(375),
-                                        height: widthScale(375),
-                                    }}
-                                    resizeMode="contain"
-                                    // sharedTransitionTag="tag"
-                                />
-                            </NativeAnimated.View>
-                        </NativeAnimated.View>
-                    </View>
+                    </ScrollView>
                 </ScrollView>
             </View>
             <Pressable
@@ -199,13 +218,25 @@ export const NavigationAnimateChildrenScreen = () => {
                     navigation.goBack();
                 }}>
                 <View
-                    style={getWidthHeight(30, 30, {
+                    style={{
                         borderRadius: widthScale(15),
-                        backgroundColor: 'red',
+                        paddingLeft: widthScale(16),
                         marginTop: insets.top,
-                    })}
-                />
+                    }}>
+                    <Text style={{ color: '#1E90FF', fontSize: 20 }}>Back</Text>
+                </View>
             </Pressable>
+            <NativeAnimated.View
+                style={{ position: 'absolute', top: widthScale(100), alignSelf: 'center', opacity: fadeAnim }}>
+                <Text
+                    style={{
+                        color: '#FFF',
+                        marginTop: insets.top,
+                        fontSize: widthScale(20),
+                    }}>
+                    Swipe Up Or Down!!
+                </Text>
+            </NativeAnimated.View>
         </View>
     );
 };

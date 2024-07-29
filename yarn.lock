@@ -3170,7 +3170,11 @@ __metadata:
     prettier: "npm:2.8.8"
     react: "npm:18.2.0"
     react-native: "npm:0.74.3"
+    react-native-animatable: "npm:^1.4.0"
+    react-native-fast-image: "npm:^8.6.3"
     react-native-gesture-handler: "npm:^2.17.1"
+    react-native-image-pan-zoom: "npm:^2.1.12"
+    react-native-modal: "npm:^13.0.1"
     react-native-reanimated: "npm:^3.14.0"
     react-native-safe-area-context: "npm:^4.10.8"
     react-native-screens: "npm:^3.32.0"
@@ -8092,7 +8096,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
+"prop-types@npm:^15.6.2, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -8199,6 +8203,34 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-animatable@npm:1.3.3":
+  version: 1.3.3
+  resolution: "react-native-animatable@npm:1.3.3"
+  dependencies:
+    prop-types: "npm:^15.7.2"
+  checksum: 10c0/ce18b871c29d17377c08aa143be64d06e20df8e669720d2fe4eed5465c37ac4e6ebbfb4464aecb23e3e22d82114768dfacb65b0c49c33dd736f54a0507265641
+  languageName: node
+  linkType: hard
+
+"react-native-animatable@npm:^1.4.0":
+  version: 1.4.0
+  resolution: "react-native-animatable@npm:1.4.0"
+  dependencies:
+    prop-types: "npm:^15.8.1"
+  checksum: 10c0/658f15aa3744c3d6a22a44ab4609afc4335ff06d0a200a1fba513e470ebb4bd561ab709204b3777ee53cad526f695e2b4290e057a50fcd461aca337e407fe2b1
+  languageName: node
+  linkType: hard
+
+"react-native-fast-image@npm:^8.6.3":
+  version: 8.6.3
+  resolution: "react-native-fast-image@npm:8.6.3"
+  peerDependencies:
+    react: ^17 || ^18
+    react-native: ">=0.60.0"
+  checksum: 10c0/4ebeae53ffeadf1e7e5e133c1cfda81f9efe978f9ece10c732a0338149fe9104681bfdabc8427dad7c934b02bfcbd0e205bb6ca43e2844abc6054630ebe34454
+  languageName: node
+  linkType: hard
+
 "react-native-gesture-handler@npm:^2.17.1":
   version: 2.17.1
   resolution: "react-native-gesture-handler@npm:2.17.1"
@@ -8211,6 +8243,29 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 10c0/01ea97f347df2505c58be8551c62e9fd0bae7814346a41f3367ec0b4836877fd8b9b710619f8bc10c6cdbb0e2670dd6c131124d27aabc4745383aab690dae6b3
+  languageName: node
+  linkType: hard
+
+"react-native-image-pan-zoom@npm:^2.1.12":
+  version: 2.1.12
+  resolution: "react-native-image-pan-zoom@npm:2.1.12"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 10c0/c1047da6b7eb0d8a80a810eba8dc0c74e11d0b476808c30d1bbc6285c3f8dc8140aba60fb1af35e2c8c114aa32eed64fb545214a6cf1c00d6b80dd3178bdf3f6
+  languageName: node
+  linkType: hard
+
+"react-native-modal@npm:^13.0.1":
+  version: 13.0.1
+  resolution: "react-native-modal@npm:13.0.1"
+  dependencies:
+    prop-types: "npm:^15.6.2"
+    react-native-animatable: "npm:1.3.3"
+  peerDependencies:
+    react: "*"
+    react-native: ">=0.65.0"
+  checksum: 10c0/8ec5728c2a27eb31c97451968b4ecefdf005afda51fab2fc864fc442122573c70f7bf3fa0c6e3bd1d6aab3565c684104d1d30df916c3f9a6c7c3223e4d3b9249
   languageName: node
   linkType: hard
 

@@ -8,12 +8,18 @@ import {
     NavigationAnimateChildrenScreen,
 } from '../screen/navigation-animation/navigation-animate';
 import MyCalendarScreen from '../screen/calendar/calendar-screen';
+import MarkerCoordinateScreen from '../screen/marker-animation/marker-animation';
+import NestedScrollViewScreen from '../screen/nested-scrollview/nested-scrollview';
+import CustomModalScreen from '../screen/custom-modal/custom-swipe-modal';
 
 export type NavigationParamsList = {
     MainScreen: {};
     NavigationAnimateParentScreen: {};
     NavigationAnimateChildrenScreen: {};
+    MarkerCoordinateScreen: {};
     MyCalendarScreen: {};
+    NestedScrollViewScreen: {};
+    CustomModalScreen: {};
 };
 
 const MyTheme = {
@@ -43,11 +49,35 @@ export const AppStackNavigationFNC = () => {
                     }}
                 />
                 <Stack.Screen
+                    name="MarkerCoordinateScreen"
+                    component={MarkerCoordinateScreen}
+                    options={{
+                        headerShown: false,
+                        presentation: 'containedTransparentModal',
+                    }}
+                />
+                <Stack.Screen
                     name="MyCalendarScreen"
                     component={MyCalendarScreen}
                     options={{
                         headerShown: false,
                         presentation: 'containedTransparentModal',
+                    }}
+                />
+                <Stack.Screen
+                    name="NestedScrollViewScreen"
+                    component={NestedScrollViewScreen}
+                    options={{
+                        headerShown: false,
+                        presentation: 'containedTransparentModal',
+                    }}
+                />
+                <Stack.Screen
+                    name="CustomModalScreen"
+                    component={CustomModalScreen}
+                    options={{
+                        headerShown: false,
+                        // presentation: 'containedTransparentModal',
                     }}
                 />
             </Stack.Navigator>
