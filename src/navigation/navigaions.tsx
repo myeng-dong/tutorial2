@@ -11,6 +11,7 @@ import MyCalendarScreen from '../screen/calendar/calendar-screen';
 import MarkerCoordinateScreen from '../screen/marker-animation/marker-animation';
 import NestedScrollViewScreen from '../screen/nested-scrollview/nested-scrollview';
 import CustomModalScreen from '../screen/custom-modal/custom-swipe-modal';
+import CodingTestScreen from '../screen/codingtest-memo.tsx/coding';
 
 export type NavigationParamsList = {
     MainScreen: {};
@@ -20,6 +21,7 @@ export type NavigationParamsList = {
     MyCalendarScreen: {};
     NestedScrollViewScreen: {};
     CustomModalScreen: {};
+    CodingTestScreen: {};
 };
 
 const MyTheme = {
@@ -75,6 +77,14 @@ export const AppStackNavigationFNC = () => {
                 <Stack.Screen
                     name="CustomModalScreen"
                     component={CustomModalScreen}
+                    options={{
+                        headerShown: false,
+                        // presentation: 'containedTransparentModal',
+                    }}
+                />
+                <Stack.Screen
+                    name="CodingTestScreen"
+                    component={CodingTestScreen}
                     options={{
                         headerShown: false,
                         // presentation: 'containedTransparentModal',

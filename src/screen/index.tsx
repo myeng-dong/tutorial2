@@ -119,6 +119,26 @@ const MainScreen = () => {
                         {`React Native Modal`}
                     </Text>
                 </Pressable>
+                <Pressable
+                    style={getWidthHeight(164, 175, {
+                        padding: widthScale(20),
+                        marginVertical: widthScale(20),
+                        backgroundColor: 'rgba(235, 238, 250, 0.96)',
+                        borderRadius: widthScale(10),
+                        justifyContent: 'center',
+                    })}
+                    onPress={() => {
+                        navigation.navigate('CodingTestScreen', {});
+                    }}>
+                    <Text
+                        style={{
+                            fontSize: widthScale(18),
+                            fontWeight: 700,
+                            textAlign: 'center',
+                        }}>
+                        {`Coding Test Memo`}
+                    </Text>
+                </Pressable>
             </View>
         </View>
     );
