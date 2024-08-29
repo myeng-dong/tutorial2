@@ -3,12 +3,12 @@ import { Pressable, Text, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { getWidthHeight, widthScale } from '../../common/util';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import CodingTestScreen2 from './coding2';
 
 const CodingTestScreen = () => {
     const insets = useSafeAreaInsets();
     const [value, setValue] = useState('');
     const recursion = (count: number) => {
-        // let equalNum = 0;
         let clockArrs = Array.from({ length: count }).map((_, height) =>
             Array.from({ length: count }).map((_, width) => {
                 return 0;
@@ -26,7 +26,6 @@ const CodingTestScreen = () => {
 
             clockArrs = clockArrs.map((x, height) =>
                 x.map((y, width) => {
-                    // if (y !== 0 || y == undefined) return;
                     if (
                         equalNum == 0 &&
                         !([height, width].includes(equalNum) || [height, width].includes(count - 1 - equalNum))
@@ -70,21 +69,36 @@ const CodingTestScreen = () => {
     };
     return (
         <View style={{ flex: 1, marginTop: insets.top, alignItems: 'center', justifyContent: 'center' }}>
-            <KeyboardAwareScrollView keyboardDismissMode="interactive">
-                <View style={{ borderWidth: 1, marginBottom: widthScale(40), width: widthScale(200) }}>
-                    <TextInput style={{ fontSize: 30, textAlign: 'center' }} value={value} onChangeText={setValue} />
-                </View>
-                <Pressable
-                    onPress={() => {
-                        console.log(recursion(parseInt(value)));
-                    }}
-                    style={getWidthHeight(100, 100, {
-                        backgroundColor: 'blue',
+            <KeyboardAwareScrollView keyboardDismissMode="interactive" horizontal style={{}}>
+                <View
+                    style={{
+                        flexDirection: 'row',
                         alignItems: 'center',
-                        justifyContent: 'center',
-                    })}>
-                    <Text style={{ color: '#fff', fontSize: 30 }}>Press answer!!</Text>
-                </Pressable>
+                        width: widthScale(375),
+                        backgroundColor: '#FAFAFA',
+                    }}>
+                    <View style={{ borderWidth: 1, marginBottom: widthScale(40), width: widthScale(200) }}>
+                        <TextInput
+                            style={{ fontSize: 30, textAlign: 'center' }}
+                            value={value}
+                            onChangeText={setValue}
+                        />
+                    </View>
+                    <Pressable
+                        onPress={() => {
+                            console.log(recursion(parseInt(value)));
+                        }}
+                        style={getWidthHeight(100, 100, {
+                            backgroundColor: 'blue',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        })}>
+                        <Text style={{ color: '#fff', fontSize: 30 }}>Press answer!!</Text>
+                    </Pressable>
+                </View>
+                <View style={{ width: widthScale(375) }}>
+                    <CodingTestScreen2 />
+                </View>
             </KeyboardAwareScrollView>
         </View>
     );

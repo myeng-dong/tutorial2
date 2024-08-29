@@ -12,6 +12,7 @@ import MarkerCoordinateScreen from '../screen/marker-animation/marker-animation'
 import NestedScrollViewScreen from '../screen/nested-scrollview/nested-scrollview';
 import CustomModalScreen from '../screen/custom-modal/custom-swipe-modal';
 import CodingTestScreen from '../screen/codingtest-memo.tsx/coding';
+import { ShadowCopyScreen, ShadowScreen } from '../screen/shadow/shadow';
 
 export type NavigationParamsList = {
     MainScreen: {};
@@ -22,6 +23,8 @@ export type NavigationParamsList = {
     NestedScrollViewScreen: {};
     CustomModalScreen: {};
     CodingTestScreen: {};
+    ShadowScreen: {};
+    ShadowCopyScreen: {};
 };
 
 const MyTheme = {
@@ -85,6 +88,22 @@ export const AppStackNavigationFNC = () => {
                 <Stack.Screen
                     name="CodingTestScreen"
                     component={CodingTestScreen}
+                    options={{
+                        headerShown: false,
+                        // presentation: 'containedTransparentModal',
+                    }}
+                />
+                <Stack.Screen
+                    name="ShadowScreen"
+                    component={ShadowScreen}
+                    options={{
+                        headerShown: false,
+                        // presentation: 'containedTransparentModal',
+                    }}
+                />
+                <Stack.Screen
+                    name="ShadowCopyScreen"
+                    component={ShadowCopyScreen}
                     options={{
                         headerShown: false,
                         // presentation: 'containedTransparentModal',
