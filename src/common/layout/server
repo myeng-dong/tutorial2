@@ -1,0 +1,33 @@
+// const [exchangeFarmMoney] = useMutation<
+//     {upsertShippingAddressByUser: number},
+//     {
+//       data: ExchangeCarbonMileageByUserArgInput;
+//     }
+//   >(MUTATIONS.EXCHANE_CARBON_MILEAGE, {refetchQueries: ['USER']});
+
+//   const {data: userQuery} = useQuery<{selectMyInfoByUser: User}>(
+//     QUERIES.MY_INFO_USER,
+//     {
+//       fetchPolicy: 'no-cache',
+//       variables: {},
+//     },
+//   );
+
+//   const {data: carbonRankingQuery} = useQuery<{
+//     selectCarbonMileageRankingByEveryone: CarbonMileageRankingUser[];
+//   }>(QUERIES.CARBON_RANKING, {
+//     fetchPolicy: 'no-cache',
+//     variables: {},
+//   });
+
+//   useEffect(() => {
+//     if (!userQuery) return;
+//     setUser(userQuery.selectMyInfoByUser);
+//   }, [userQuery]);
+
+//   useEffect(() => {
+//     if (!carbonRankingQuery) return;
+//     const rank = carbonRankingQuery.selectCarbonMileageRankingByEveryone;
+//     setCarbonRank(rank);
+//     setMaxMileage(rank[0].carbonMileageTotal);
+//   }, [carbonRankingQuery]);

@@ -1,5 +1,6 @@
 const ICONS = {
-    // ARROW_LEFT_ICON: require('../assets/icons/arrow-left-icon.png'),
+    MARKER_BACK_ICON: require('../../assets/icons/marker-back-icon.png'),
+    LOCATION_MARKER: require('../../assets/icons/location-marker.png'),
 };
 
 export default ICONS;

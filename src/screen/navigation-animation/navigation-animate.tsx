@@ -179,7 +179,7 @@ export const NavigationAnimateChildrenScreen = () => {
                                     />
                                 </NativeAnimated.View>
                             </NativeAnimated.View>
-                            <NativeAnimated.View
+                            {/* <NativeAnimated.View
                                 style={{
                                     flex: 1,
                                     justifyContent: 'center',
@@ -207,7 +207,7 @@ export const NavigationAnimateChildrenScreen = () => {
                                         // sharedTransitionTag="tag"
                                     />
                                 </NativeAnimated.View>
-                            </NativeAnimated.View>
+                            </NativeAnimated.View> */}
                         </NativeAnimated.View>
                     </ScrollView>
                 </ScrollView>

@@ -1,7 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React, { useEffect } from 'react';
-import { Platform, StatusBar, useColorScheme, View } from 'react-native';
+import { Platform, StatusBar, Text, useColorScheme, View } from 'react-native';
 
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import MainScreen from './src/screen';
@@ -16,6 +16,10 @@ const App = () => {
 
     const Stack = createNativeStackNavigator();
     useEffect(() => {
+        (Text as any).defaultProps = {
+            ...((Text as any).defaultProps || {}),
+            allowFontScaling: false,
+        };
         StatusBar.setBarStyle('dark-content', true);
         if (Platform.OS == 'android') {
             StatusBar.setTranslucent(true);
