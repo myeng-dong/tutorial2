@@ -13,7 +13,7 @@ import NestedScrollViewScreen from '../screen/nested-scrollview/nested-scrollvie
 import CustomModalScreen from '../screen/custom-modal/custom-swipe-modal';
 import CodingTestScreen from '../screen/codingtest-memo.tsx/coding';
 import { ShadowCopyScreen, ShadowScreen } from '../screen/shadow/shadow';
-import ChartScreen from '../screen/chart/chart';
+import ChartScreen from '../screen/chart/dounut-chart';
 
 export type NavigationParamsList = {
     MainScreen: {};

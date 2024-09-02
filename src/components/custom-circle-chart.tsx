@@ -24,10 +24,11 @@ interface CustomProps {
     duration?: number;
     animationCircleColor?: string;
     animation?: boolean;
+    chartStyle?: string;
 }
 const CustomCircleChart = (props: CustomProps) => {
     const AnimatedPath = Animated.createAnimatedComponent(Path);
-    const { circleRadius, chartColors, dataArr, duration, animationCircleColor, animation } = props;
+    const { circleRadius, chartColors, dataArr, duration, animationCircleColor, animation, chartStyle } = props;
     const MAX_DEGREE = 359.9;
     const fadeAnims = useSharedValue(animation ? MAX_DEGREE : 0);
     const radius = widthScale(circleRadius);
@@ -83,7 +84,7 @@ const CustomCircleChart = (props: CustomProps) => {
                 r={radius.toString()}
                 fill="transparent"
                 stroke={colors[i]}
-                strokeWidth={circleScale}
+                strokeWidth={chartStyle ? circleScale / 2 : circleScale}
                 strokeDasharray={`${fillSpace} ${emptySpace}`}
                 strokeDashoffset={-offset.toString()}
             />
