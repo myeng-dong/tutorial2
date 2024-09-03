@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Animated, ColorValue, Text, TextStyle, View } from 'react-native';
-import { widthScale } from '../common/util';
+import { widthScale } from '../../common/util';
 
 interface CustomLineChartProp {
     width: number;

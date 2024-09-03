@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ColorValue, Text, TextStyle, View } from 'react-native';
-import { widthScale } from '../common/util';
+import { widthScale } from '../../common/util';
 import RenderBarVertical from './render-bar-vertical';
 
 interface CustomLineChartProp {

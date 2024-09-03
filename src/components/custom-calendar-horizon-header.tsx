@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Image, Pressable, Text, TouchableOpacity, View } from 'react-native';
+import { Image, Pressable, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
 import { getDay, getDaysInMonth, getWeeksInMonth, setYear } from 'date-fns';
 import ICONS from '../common/variables/icons';
 import { getWidthHeight, widthScale } from '../common/util';
 
-export const CustomCalMine = () => {
+export const CustomCalendarHorizonHeader = () => {
     // const { ARROW_LEFT_ICON } = ICONS;
     let today = new Date();
     const year_today = today.getFullYear();
@@ -16,6 +16,8 @@ export const CustomCalMine = () => {
     const [selDay, setSelDay] = useState(date_today);
     const [selMonth, setSelMonth] = useState(month_today + 1);
     const [selYear, setSelYear] = useState(year_today);
+
+    const [page, setPage] = useState(0);
 
     const renderCalendar = useCallback(() => {
         // 지난달 마지막날과 이번달 마지막날
@@ -143,7 +145,7 @@ export const CustomCalMine = () => {
     };
 
     return (
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, width: widthScale(375) }}>
             <View
                 style={{
                     flexDirection: 'row',
@@ -180,7 +182,9 @@ export const CustomCalMine = () => {
                     );
                 })}
             </View>
-            <View>{renderCalendar()}</View>
+            <ScrollView horizontal pagingEnabled style={{ width: widthScale(375) }}>
+                {renderCalendar()}
+            </ScrollView>
 
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                 <Pressable

@@ -1,7 +1,7 @@
 import React, { memo, useEffect } from 'react';
 import Animated, { useAnimatedProps, useSharedValue, withTiming } from 'react-native-reanimated';
 import Svg, { Circle, Path } from 'react-native-svg';
-import { widthScale } from '../common/util';
+import { widthScale } from '../../common/util';
 interface ArcData {
     x: number; // 원의 중심의 x 좌표
     y: number; // 원의 중심의 y 좌표
