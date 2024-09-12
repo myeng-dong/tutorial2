@@ -19,10 +19,6 @@ export const CustomCalendarScrollView = () => {
 
     const [page, setPage] = useState(0);
 
-    useEffect(() => {
-        console.log(page);
-    }, [page]);
-
     const renderCalendar = useCallback(
         (month: number) => {
             // 지난달 마지막날과 이번달 마지막날
@@ -138,13 +134,13 @@ export const CustomCalendarScrollView = () => {
         // }
     };
     const nextMonth = () => {
-        if (getYear - 1 > year_today) return;
-        if (getMonth == 11) {
-            setGetYear(getYear + 1);
-            setGetMonth(0);
-        } else {
-            setGetMonth(getMonth + 1);
-        }
+        // if (getYear - 1 > year_today) return;
+        // if (getMonth == 11) {
+        //     setGetYear(getYear + 1);
+        //     setGetMonth(0);
+        // } else {
+        //     setGetMonth(getMonth + 1);
+        // }
     };
     const goToday = () => {
         setGetMonth(month_today);
@@ -173,6 +169,7 @@ export const CustomCalendarScrollView = () => {
                     month_today + Math.ceil(page) + 1 > 12.99
                         ? month_today + Math.ceil(page) + 1 - 12
                         : month_today + Math.ceil(page) + 1
+                    // month_today + Math.ceil(page) + 1
                 }월`}</Text>
                 <Pressable
                     onPress={() => {
@@ -200,11 +197,11 @@ export const CustomCalendarScrollView = () => {
                 pagingEnabled
                 style={{ width: widthScale(375) }}
                 onScroll={(event) => {
-                    setPage(Math.ceil(event.nativeEvent.contentOffset.x / widthScale(375)));
+                    setPage(Math.round(event.nativeEvent.contentOffset.x / widthScale(375)));
                 }}>
                 {/* <View style={{ width: widthScale(375) }}>{renderCalendar(getMonth)}</View> */}
-                {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((_, index) => {
-                    return <View style={{ width: widthScale(375) }}>{renderCalendar(getMonth + index)}</View>;
+                {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((_, index) => {
+                    return <View style={{ width: widthScale(375) }}>{renderCalendar(month_today + index)}</View>;
                 })}
             </ScrollView>
 

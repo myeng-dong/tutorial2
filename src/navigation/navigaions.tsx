@@ -14,6 +14,8 @@ import CustomModalScreen from '../screen/custom-modal/custom-swipe-modal';
 import CodingTestScreen from '../screen/codingtest-memo.tsx/coding';
 import { ShadowCopyScreen, ShadowScreen } from '../screen/shadow/shadow';
 import ChartScreen from '../screen/chart/dounut-chart';
+import LocationResponse from '../screen/location-response/location-response';
+import BannerScrollViewScreen from '../screen/banner-scrollview/banner-scrollview';
 
 export type NavigationParamsList = {
     MainScreen: {};
@@ -27,6 +29,8 @@ export type NavigationParamsList = {
     ShadowScreen: {};
     ShadowCopyScreen: {};
     ChartScreen: {};
+    LocationResponse: {};
+    BannerScrollViewScreen: {};
 };
 
 const MyTheme = {
@@ -114,6 +118,22 @@ export const AppStackNavigationFNC = () => {
                 <Stack.Screen
                     name="ChartScreen"
                     component={ChartScreen}
+                    options={{
+                        headerShown: false,
+                        // presentation: 'containedTransparentModal',
+                    }}
+                />
+                <Stack.Screen
+                    name="LocationResponse"
+                    component={LocationResponse}
+                    options={{
+                        headerShown: false,
+                        // presentation: 'containedTransparentModal',
+                    }}
+                />
+                <Stack.Screen
+                    name="BannerScrollViewScreen"
+                    component={BannerScrollViewScreen}
                     options={{
                         headerShown: false,
                         // presentation: 'containedTransparentModal',

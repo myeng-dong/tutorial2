@@ -30,7 +30,6 @@ const CustomCircleChart = (props: CustomProps) => {
     const AnimatedPath = Animated.createAnimatedComponent(Path);
     const { circleRadius, chartColors, dataArr, duration, animationCircleColor, animation, chartStyle } = props;
     const MAX_DEGREE = 359.9;
-    const fadeAnims = useSharedValue(animation ? MAX_DEGREE : 0);
     const radius = widthScale(circleRadius);
     const diameter = 2 * Math.PI * radius;
     const colors = chartColors ? chartColors : ['#ddd', '#bbb', '#aaa', '#888', '#666'];
@@ -41,6 +40,7 @@ const CustomCircleChart = (props: CustomProps) => {
     const total = dataset.reduce((r, v) => r + v, 0);
     const acc = dataset.reduce((result, value) => [...result, result[result.length - 1] + value], [0]);
 
+    const fadeAnims = useSharedValue(animation ? MAX_DEGREE : 0);
     useEffect(() => {
         fadeAnims.value = withTiming(0, { duration: duration ? duration : 1350 });
     }, []);
@@ -97,11 +97,13 @@ const CustomCircleChart = (props: CustomProps) => {
     return (
         <Svg width={circleScale * 2} height={circleScale * 2}>
             {dataset.map(circleItem)}
-            <AnimatedPath
-                animatedProps={animatedProps}
-                fill={animationCircleColor ? animationCircleColor : '#fff'}
-                stroke={'transparent'}
-            />
+            {animation && (
+                <AnimatedPath
+                    animatedProps={animatedProps}
+                    fill={animationCircleColor ? animationCircleColor : '#fff'}
+                    stroke={'transparent'}
+                />
+            )}
         </Svg>
     );
 };

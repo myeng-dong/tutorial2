@@ -3167,24 +3167,30 @@ __metadata:
     date-fns: "npm:^3.6.0"
     eslint: "npm:^8.19.0"
     jest: "npm:^29.6.3"
+    jetifier: "npm:^2.0.0"
+    lottie-react-native: "npm:^6.7.2"
     prettier: "npm:2.8.8"
     react: "npm:18.2.0"
     react-native: "npm:0.74.3"
     react-native-animatable: "npm:^1.4.0"
     react-native-chart-kit: "npm:^6.12.0"
+    react-native-date-picker: "npm:4.4.2"
     react-native-drop-shadow: "npm:^1.0.0"
     react-native-fast-image: "npm:^8.6.3"
     react-native-gesture-handler: "npm:^2.17.1"
     react-native-image-pan-zoom: "npm:^2.1.12"
+    react-native-image-zoom: "npm:^0.32.0"
     react-native-keyboard-aware-scroll-view: "npm:^0.9.5"
     react-native-modal: "npm:^13.0.1"
     react-native-pie-chart: "npm:^3.0.2"
-    react-native-reanimated: "npm:^3.14.0"
+    react-native-reanimated: "npm:3.14.0"
+    react-native-reanimated-carousel: "npm:^3.5.1"
     react-native-safe-area-context: "npm:^4.10.8"
     react-native-screens: "npm:^3.32.0"
     react-native-shadow-2: "npm:^7.1.0"
     react-native-svg: "npm:^15.5.0"
     react-native-swipe-gestures: "npm:^1.0.5"
+    react-native-web-hooks: "npm:^3.0.2"
     react-test-renderer: "npm:18.2.0"
     typescript: "npm:^5.5.3"
   languageName: unknown
@@ -6732,6 +6738,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jetifier@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "jetifier@npm:2.0.0"
+  bin:
+    jetifier: bin/jetify
+    jetifier-standalone: bin/jetifier-standalone
+    jetify: bin/jetify
+  checksum: 10c0/3716b7a26d1d912aef604a88fdd4aface01b26db95873860adecdb5ed4d1396f5a847efe5315630a90b2e84f447c872dedf55f368482fc9e59236edca03ff100
+  languageName: node
+  linkType: hard
+
 "joi@npm:^17.2.1":
   version: 17.13.3
   resolution: "joi@npm:17.13.3"
@@ -7057,6 +7074,26 @@ __metadata:
   bin:
     loose-envify: cli.js
   checksum: 10c0/655d110220983c1a4b9c0c679a2e8016d4b67f6e9c7b5435ff5979ecdb20d0813f4dec0a08674fcbdd4846a3f07edbb50a36811fd37930b94aaa0d9daceb017e
+  languageName: node
+  linkType: hard
+
+"lottie-react-native@npm:^6.7.2":
+  version: 6.7.2
+  resolution: "lottie-react-native@npm:6.7.2"
+  peerDependencies:
+    "@dotlottie/react-player": ^1.6.1
+    "@lottiefiles/react-lottie-player": ^3.5.3
+    react: "*"
+    react-native: ">=0.46"
+    react-native-windows: ">=0.63.x"
+  peerDependenciesMeta:
+    "@dotlottie/react-player":
+      optional: true
+    "@lottiefiles/react-lottie-player":
+      optional: true
+    react-native-windows:
+      optional: true
+  checksum: 10c0/a98ffa572b1f47edabec7e652926358bfe72b6ebce85ad91a52046859e097320f86b201c8848aec644673e8975b28ef8445abf42fac52812a38f9273f9bb4a5b
   languageName: node
   linkType: hard
 
@@ -8377,6 +8414,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-date-picker@npm:4.4.2":
+  version: 4.4.2
+  resolution: "react-native-date-picker@npm:4.4.2"
+  peerDependencies:
+    react: ">= 17.0.1"
+    react-native: ">= 0.64.3"
+  checksum: 10c0/d7cab97a574b2f3c85bef92686cba65a32a75823260cfabca2c19467ee9296bbd55bdcd937e4a90264823c76cb5a2fa3c058639528c308c6e8bb94ffc1a28179
+  languageName: node
+  linkType: hard
+
 "react-native-drop-shadow@npm:^1.0.0":
   version: 1.0.0
   resolution: "react-native-drop-shadow@npm:1.0.0"
@@ -8419,6 +8466,13 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: 10c0/c1047da6b7eb0d8a80a810eba8dc0c74e11d0b476808c30d1bbc6285c3f8dc8140aba60fb1af35e2c8c114aa32eed64fb545214a6cf1c00d6b80dd3178bdf3f6
+  languageName: node
+  linkType: hard
+
+"react-native-image-zoom@npm:^0.32.0":
+  version: 0.32.0
+  resolution: "react-native-image-zoom@npm:0.32.0"
+  checksum: 10c0/af9658249f8070b027d65d0335bc053970210dce103a397d14505f0ed48f8273e7ea92c6152d4fc101ce6a2ffe841b7b3768589e408bdafe5340d1c8e14cce2c
   languageName: node
   linkType: hard
 
@@ -8469,7 +8523,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-reanimated@npm:^3.14.0":
+"react-native-reanimated-carousel@npm:^3.5.1":
+  version: 3.5.1
+  resolution: "react-native-reanimated-carousel@npm:3.5.1"
+  peerDependencies:
+    react: ">=16.8.0"
+    react-native: ">=0.6.0"
+    react-native-gesture-handler: ">=2.0.0"
+    react-native-reanimated: ">=3.0.0"
+  checksum: 10c0/b59a1d41b9138ba04198590319698a4a9f3be467abda1c63df42e043c643e5c8bbe94121c5cca2cf830c9b84d7c45f0712db79ecaafbca07158d73c61db6a4ff
+  languageName: node
+  linkType: hard
+
+"react-native-reanimated@npm:3.14.0":
   version: 3.14.0
   resolution: "react-native-reanimated@npm:3.14.0"
   dependencies:
@@ -8542,6 +8608,17 @@ __metadata:
   version: 1.0.5
   resolution: "react-native-swipe-gestures@npm:1.0.5"
   checksum: 10c0/33bb8bd402de82ed751a8f1913fe7e02ddc533edb7178bf9e499387b93d0d14154cef120f273c554bb988ad1ba87165b80be213611cb92af8875f2380ec7878b
+  languageName: node
+  linkType: hard
+
+"react-native-web-hooks@npm:^3.0.2":
+  version: 3.0.2
+  resolution: "react-native-web-hooks@npm:3.0.2"
+  peerDependencies:
+    fbjs: "*"
+    prop-types: "*"
+    react-native: "*"
+  checksum: 10c0/e7eb3ec8bd0d33a77327bb1e80e7f721fbebf375557e624832ee0fd1aeba6cacc30170f51f45c6d63ead79fddd3574f27b309d56903bad6611e18fbcbcfcec34
   languageName: node
   linkType: hard
 

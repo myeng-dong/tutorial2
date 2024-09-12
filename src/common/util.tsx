@@ -4,6 +4,7 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { NavigationProp, RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { NavigationParamsList } from '../navigation/navigaions';
 import FONTS from './variables/fonts';
+import ICONS from './variables/icons';
 
 export function Section({ children, title }: SectionProps): React.JSX.Element {
     const isDarkMode = useColorScheme() === 'dark';
@@ -81,12 +82,23 @@ export function getPaddingStyles(horizontal: number, vertical: number, etcStyles
     };
 }
 
+export const getImageFromUri = (uri: string | undefined) => {
+    return !uri ? ICONS.LOCATION_MARKER : uri.length == 0 ? ICONS.LOCATION_MARKER : { uri: encodeURI(uri) };
+};
+
 export function transPhoneNumberFormat(value: number | string): string {
     return value
         .toString()
         .replace(/[^0-9]/g, '')
         .replace(/(^02|^0505|^1[0-9]{3}|^0[0-9]{2})([0-9]+)?([0-9]{4})$/, '$1-$2-$3')
         .replace('--', '-');
+}
+
+export function makeRandomColor() {
+    const r = Math.floor(Math.random() * 255);
+    const g = Math.floor(Math.random() * 255);
+    const b = Math.floor(Math.random() * 255);
+    return `rgb(${r},${g},${b})`;
 }
 export function transMoneyFormat(value: number | string, maxValue?: number): string {
     let tmp = typeof value == 'string' ? parseInt(value.replace(/,/gi, '')) : value;

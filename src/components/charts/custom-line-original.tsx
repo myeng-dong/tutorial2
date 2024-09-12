@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Animated, ColorValue, PanResponder, Pressable, Text, TextStyle, View } from 'react-native';
+import { Animated, ColorValue, Pressable, Text, TextStyle, View } from 'react-native';
 import { widthScale } from '../../common/util';
-import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
 
 interface CustomLineChartProp {
     width: number;
@@ -126,7 +125,7 @@ const CustomLineChart = (props: CustomLineChartProp) => {
                                     style={{
                                         paddingBottom: !isReverse ? margin - Math.abs(y) : margin,
                                         backgroundColor: chartFillColor,
-                                        // opacity: fadeAnim,
+                                        opacity: fadeAnim,
                                     }}>
                                     <View
                                         style={{
@@ -317,37 +316,6 @@ const CustomLineChart = (props: CustomLineChartProp) => {
                         )}
                     </View>
                 </View>
-                {/* Dot */}
-                {showDot && chartHeight != 0 && (
-                    <View
-                        style={{
-                            position: 'absolute',
-                            top: -(dotSize / 2),
-                            right: -(dotSize / 2),
-                            width: chartWidth + dotSize * 2,
-                            height: chartHeight + dotSize * 2,
-                            flexDirection: 'row',
-                            alignItems: 'flex-end',
-                            justifyContent: 'space-between',
-                            backgroundColor: 'transparent',
-                        }}>
-                        {chartData.map((item, index) => {
-                            let margin = (chartHeight * item.y) / maxYDomain;
-                            return (
-                                <View
-                                    style={{
-                                        marginBottom: margin,
-                                        width: dotSize * 2,
-                                        height: dotSize * 2,
-                                        borderRadius: dotSize * 2,
-                                        backgroundColor: dotColor,
-                                    }}
-                                    key={`dot_${index}`}
-                                />
-                            );
-                        })}
-                    </View>
-                )}
                 {/* Line */}
                 <View
                     style={{
@@ -377,13 +345,16 @@ const CustomLineChart = (props: CustomLineChartProp) => {
                             let movedRotate = (z - x) / 2;
 
                             return (
-                                <View
+                                <Animated.View
                                     style={{
                                         paddingBottom: !isReverse ? margin - Math.abs(y) : margin,
                                         backgroundColor: 'transparent',
-                                        // opacity: fadeAnim,
+                                        opacity: fadeAnim,
                                     }}>
-                                    <View
+                                    <Pressable
+                                        onResponderMove={() => {
+                                            console.log(item);
+                                        }}
                                         style={{
                                             width: x,
                                             height: Math.abs(y),
@@ -404,12 +375,44 @@ const CustomLineChart = (props: CustomLineChartProp) => {
                                                 transform: [{ rotate: rotateStr }],
                                             }}
                                         />
-                                    </View>
-                                </View>
+                                    </Pressable>
+                                </Animated.View>
                             );
                         }
                     })}
                 </View>
+                {/* Dot */}
+                {showDot && chartHeight != 0 && (
+                    <View
+                        style={{
+                            position: 'absolute',
+                            top: -(dotSize / 2),
+                            right: -(dotSize / 2),
+                            width: chartWidth + dotSize * 2,
+                            height: chartHeight + dotSize * 2,
+                            flexDirection: 'row',
+                            alignItems: 'flex-end',
+                            justifyContent: 'space-between',
+                            backgroundColor: 'transparent',
+                        }}>
+                        {chartData.map((item, index) => {
+                            let margin = (chartHeight * item.y) / maxYDomain;
+
+                            return (
+                                <View
+                                    style={{
+                                        marginBottom: margin,
+                                        width: dotSize * 2,
+                                        height: dotSize * 2,
+                                        borderRadius: dotSize * 2,
+                                        backgroundColor: dotColor,
+                                    }}
+                                    key={`dot_${index}`}
+                                />
+                            );
+                        })}
+                    </View>
+                )}
                 {/* xLabel */}
                 {showXLabel && (
                     <View

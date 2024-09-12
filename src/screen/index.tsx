@@ -177,6 +177,46 @@ const MainScreen = () => {
                         {`Chart Library Usable`}
                     </Text>
                 </Pressable>
+                <Pressable
+                    style={getWidthHeight(164, 175, {
+                        padding: widthScale(20),
+                        marginVertical: widthScale(20),
+                        backgroundColor: 'rgba(235, 238, 250, 0.96)',
+                        borderRadius: widthScale(10),
+                        justifyContent: 'center',
+                    })}
+                    onPress={() => {
+                        navigation.navigate('LocationResponse', {});
+                    }}>
+                    <Text
+                        style={{
+                            fontSize: widthScale(18),
+                            fontWeight: 700,
+                            textAlign: 'center',
+                        }}>
+                        {`Now OnTouch Location Return`}
+                    </Text>
+                </Pressable>
+                <Pressable
+                    style={getWidthHeight(164, 175, {
+                        padding: widthScale(20),
+                        marginVertical: widthScale(20),
+                        backgroundColor: 'rgba(235, 238, 250, 0.96)',
+                        borderRadius: widthScale(10),
+                        justifyContent: 'center',
+                    })}
+                    onPress={() => {
+                        navigation.navigate('BannerScrollViewScreen', {});
+                    }}>
+                    <Text
+                        style={{
+                            fontSize: widthScale(18),
+                            fontWeight: 700,
+                            textAlign: 'center',
+                        }}>
+                        {`Banner ScrollView`}
+                    </Text>
+                </Pressable>
             </ScrollView>
         </View>
     );
