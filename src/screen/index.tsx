@@ -217,6 +217,46 @@ const MainScreen = () => {
                         {`Banner ScrollView`}
                     </Text>
                 </Pressable>
+                <Pressable
+                    style={getWidthHeight(164, 175, {
+                        padding: widthScale(20),
+                        marginVertical: widthScale(20),
+                        backgroundColor: 'rgba(235, 238, 250, 0.96)',
+                        borderRadius: widthScale(10),
+                        justifyContent: 'center',
+                    })}
+                    onPress={() => {
+                        navigation.navigate('BannerScrollViewScreen', {});
+                    }}>
+                    <Text
+                        style={{
+                            fontSize: widthScale(18),
+                            fontWeight: 700,
+                            textAlign: 'center',
+                        }}>
+                        {`휴대폰 구매 계산기`}
+                    </Text>
+                </Pressable>
+                <Pressable
+                    style={getWidthHeight(164, 175, {
+                        padding: widthScale(20),
+                        marginVertical: widthScale(20),
+                        backgroundColor: 'rgba(235, 238, 250, 0.96)',
+                        borderRadius: widthScale(10),
+                        justifyContent: 'center',
+                    })}
+                    onPress={() => {
+                        navigation.navigate('ChatKeyBoardScreen', {});
+                    }}>
+                    <Text
+                        style={{
+                            fontSize: widthScale(18),
+                            fontWeight: 700,
+                            textAlign: 'center',
+                        }}>
+                        {`채팅 키보드`}
+                    </Text>
+                </Pressable>
             </ScrollView>
         </View>
     );

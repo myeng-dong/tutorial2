@@ -1,7 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React, { useEffect } from 'react';
-import { Platform, StatusBar, Text, useColorScheme, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, StatusBar, Text, useColorScheme, View } from 'react-native';
 
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import MainScreen from './src/screen';

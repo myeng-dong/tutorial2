@@ -69,7 +69,7 @@ const CodingTestScreen = () => {
     };
     return (
         <View style={{ flex: 1, marginTop: insets.top, alignItems: 'center', justifyContent: 'center' }}>
-            <KeyboardAwareScrollView keyboardDismissMode="interactive" horizontal style={{}}>
+            <KeyboardAwareScrollView horizontal style={{}}>
                 <View
                     style={{
                         flexDirection: 'row',

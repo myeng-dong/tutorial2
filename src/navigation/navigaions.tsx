@@ -16,6 +16,7 @@ import { ShadowCopyScreen, ShadowScreen } from '../screen/shadow/shadow';
 import ChartScreen from '../screen/chart/dounut-chart';
 import LocationResponse from '../screen/location-response/location-response';
 import BannerScrollViewScreen from '../screen/banner-scrollview/banner-scrollview';
+import ChatKeyBoardScreen from '../screen/chat-keyboard/chat-keyboard';
 
 export type NavigationParamsList = {
     MainScreen: {};
@@ -31,6 +32,7 @@ export type NavigationParamsList = {
     ChartScreen: {};
     LocationResponse: {};
     BannerScrollViewScreen: {};
+    ChatKeyBoardScreen: {};
 };
 
 const MyTheme = {
@@ -134,6 +136,14 @@ export const AppStackNavigationFNC = () => {
                 <Stack.Screen
                     name="BannerScrollViewScreen"
                     component={BannerScrollViewScreen}
+                    options={{
+                        headerShown: false,
+                        // presentation: 'containedTransparentModal',
+                    }}
+                />
+                <Stack.Screen
+                    name="ChatKeyBoardScreen"
+                    component={ChatKeyBoardScreen}
                     options={{
                         headerShown: false,
                         // presentation: 'containedTransparentModal',
