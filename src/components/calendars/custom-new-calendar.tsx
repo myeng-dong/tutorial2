@@ -6,6 +6,7 @@ import {
     NativeScrollEvent,
     NativeScrollPoint,
     NativeSyntheticEvent,
+    Platform,
     Pressable,
     Text,
     TouchableOpacity,
@@ -34,6 +35,7 @@ export type MonthData = CalendarData[];
 export const CustomNewCalMine = () => {
     // 월요일 시작이면 true 일요일 시작이면 false
     const STARTWEEKMONDAY = false;
+    const RENDERCOUNT = 4;
     const TODAY: DateTime = DateTime.now();
     const [todayIndex, setTodayIndex] = useState<number>(0);
     const CUSTOMWIDTH = widthScale(375 / 7);
@@ -50,8 +52,14 @@ export const CustomNewCalMine = () => {
     });
 
     function handleScroll(event: NativeSyntheticEvent<NativeScrollEvent>): void {
-        const distanceFromStart: NativeScrollPoint = event.nativeEvent.contentOffset;
-        if (distanceFromStart.x === 0) prependData();
+        const distanceFromStart = event.nativeEvent.contentOffset;
+        if (distanceFromStart.x === 0) {
+            if (renderFlag.current) return;
+            prependData();
+            renderFlag.current = true;
+        } else {
+            renderFlag.current = false;
+        }
     }
 
     const generateCurrentWeek = useCallback(() => {
@@ -109,7 +117,6 @@ export const CustomNewCalMine = () => {
         return data;
     };
 
-    // 매개변수의 전체일자 배열로 반환
     const getDaysInMonth = (month: number, year: number): DateTime[] => {
         const date: DateTime = DateTime.local(year, month);
         const daysInMonth: PossibleDaysInMonth | undefined = date.daysInMonth;
@@ -118,7 +125,6 @@ export const CustomNewCalMine = () => {
         });
     };
 
-    // 날짜 데이터를 타입에 맞게 추가
     const getDaysInMonthSplitByWeek = (month: number, year: number, complete: boolean = true): CalendarData => {
         const dayInMonth: DateTime[] = getDaysInMonth(month, year);
         const result: CalendarData = [];
@@ -144,6 +150,20 @@ export const CustomNewCalMine = () => {
     // 현재 달
     const getCurrentMonth = (): MonthData => {
         const now: DateTime = DateTime.now();
+        const prevMonth = now.month - 1 == 0 ? 12 : now.month - 1;
+        const prevYaer = now.month - 1 == 0 ? now.year - 1 : now.year;
+        const nextMonth = now.month + 1 == 13 ? 1 : now.month + 1;
+        const nextYear = now.month + 1 == 13 ? 1 : now.year;
+        return [
+            getDaysInMonthSplitByWeek(prevMonth, prevYaer),
+            getDaysInMonthSplitByWeek(now.month, now.year),
+            getDaysInMonthSplitByWeek(nextMonth, nextYear),
+        ];
+    };
+
+    // 지정달
+    const getCustomMonth = (date: DateTime): MonthData => {
+        const now: DateTime = date;
         const prevMonth = now.month - 1 == 0 ? 12 : now.month - 1;
         const prevYaer = now.month - 1 == 0 ? now.year - 1 : now.year;
         const nextMonth = now.month + 1 == 13 ? 1 : now.month + 1;
@@ -199,7 +219,7 @@ export const CustomNewCalMine = () => {
             nextDateData = getAMonth(lastDate.date);
         }
         let item = [...dateData, ...nextDateData];
-        if (dateData.length == 4) {
+        if (dateData.length == RENDERCOUNT) {
             dateFlatList.current?.scrollToIndex({ index: 2, animated: false });
             setDateData([...item.slice(1, item.length - 1)]);
         } else {
@@ -226,7 +246,7 @@ export const CustomNewCalMine = () => {
         }
         const item = [...previousDateData, ...dateData];
         if (dateFlatList.current !== undefined) {
-            if (dateData.length == 4) {
+            if (dateData.length == RENDERCOUNT) {
                 setDateData([...item.slice(0, item.length - 2)]);
                 dateFlatList.current?.scrollToIndex({ index: 1, animated: false });
             } else {
@@ -240,14 +260,21 @@ export const CustomNewCalMine = () => {
     useEffect(() => {
         setDateData(getCurrentMonth());
     }, []);
-    useEffect(() => {}, [currentObjectInfo]);
 
     return (
         <View style={{ paddingTop: widthScale(40) }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                <Text>{currentObjectInfo?.viewableItems[0]?.item[1][0]?.date.year ?? ''}년 </Text>
-                <Text>{currentObjectInfo?.viewableItems[0]?.item[1][0]?.date.monthLong ?? ''}</Text>
-            </View>
+            {dateData !== undefined && (
+                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                    <Text>
+                        {currentObjectInfo?.viewableItems[0]?.item[1][0]?.date.year ?? dateData![0][1][0].date.year}년{' '}
+                    </Text>
+                    <Text>
+                        {currentObjectInfo?.viewableItems[0]?.item[1][0]?.date.month ??
+                            dateData![0][1][0].date.plus({ month: 2 }).month}
+                        월
+                    </Text>
+                </View>
+            )}
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                 {generateCurrentWeek()}
             </View>
@@ -256,6 +283,7 @@ export const CustomNewCalMine = () => {
                     horizontal
                     pagingEnabled
                     showsHorizontalScrollIndicator={false}
+                    bounces={false}
                     ref={dateFlatList}
                     data={dateData}
                     renderItem={(item: ListRenderItemInfo<CalendarData>) => <View>{renderDays(item.item)}</View>}
@@ -269,19 +297,22 @@ export const CustomNewCalMine = () => {
                     onEndReached={() => {
                         appendData();
                     }}
+                    onMomentumScrollBegin={() => renderFlag.current == true}
                     onScroll={(event: NativeSyntheticEvent<NativeScrollEvent>): void => {
                         handleScroll(event);
                     }}
+                    scrollEventThrottle={16}
                     viewabilityConfig={{ itemVisiblePercentThreshold: 40 }}
                     onViewableItemsChanged={onViewableItemsChanged.current}
                 />
             )}
             <Pressable
                 onPress={() => {
-                    console.log('live');
+                    setDateData(getCustomMonth(DateTime.now()));
+                    dateFlatList.current?.scrollToIndex({ index: 1, animated: false });
                 }}
                 style={{ alignSelf: 'flex-end' }}>
-                <Text>click</Text>
+                <Text>Today</Text>
             </Pressable>
         </View>
     );
