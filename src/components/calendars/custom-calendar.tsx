@@ -4,7 +4,7 @@ import { Image, Pressable, Text, TouchableOpacity, View } from 'react-native';
 import { getDay, getDaysInMonth, getWeeksInMonth, setYear } from 'date-fns';
 import ICONS from '../../common/variables/icons';
 import { getWidthHeight, widthScale } from '../../common/util';
-
+// Basic 캘린더
 export const CustomCalMine = () => {
     // const { ARROW_LEFT_ICON } = ICONS;
     let today = new Date();

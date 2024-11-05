@@ -5,6 +5,7 @@ import { CustomCalendarScrollView } from '../../components/calendars/custom-cale
 import { CustomWeekCalendar } from '../../components/calendars/custom-week-calendar';
 import { getWidthHeight, widthScale } from '../../common/util';
 import { CustomNewCalMine } from '../../components/calendars/custom-new-calendar';
+import { CustomCalMine } from '../../components/calendars/custom-calendar';
 
 const MyCalendarScreen = () => {
     const insets = useSafeAreaInsets();
@@ -26,7 +27,7 @@ const MyCalendarScreen = () => {
                 </Pressable>
             )}
             {state == -1 && (
-                <View style={{ flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap' }}>
+                <View style={{ alignItems: 'center', flexWrap: 'wrap' }}>
                     <Pressable
                         style={getWidthHeight(164, 175, {
                             padding: widthScale(20),
@@ -67,10 +68,31 @@ const MyCalendarScreen = () => {
                             {`CustomCalendarScrollView`}
                         </Text>
                     </Pressable>
+                    <Pressable
+                        style={getWidthHeight(164, 175, {
+                            padding: widthScale(20),
+                            marginVertical: widthScale(20),
+                            backgroundColor: 'rgba(235, 238, 250, 0.96)',
+                            borderRadius: widthScale(10),
+                            justifyContent: 'center',
+                        })}
+                        onPress={() => {
+                            setState(2);
+                        }}>
+                        <Text
+                            style={{
+                                fontSize: widthScale(18),
+                                fontWeight: 700,
+                                textAlign: 'center',
+                            }}>
+                            {`ArrowCalendar`}
+                        </Text>
+                    </Pressable>
                 </View>
             )}
             {state == 0 && <CustomWeekCalendar />}
             {state == 1 && <CustomNewCalMine />}
+            {state == 2 && <CustomCalMine />}
             {/* <CustomCalMine /> */}
         </View>
     );

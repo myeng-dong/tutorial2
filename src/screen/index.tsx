@@ -257,6 +257,46 @@ const MainScreen = () => {
                         {`채팅 키보드`}
                     </Text>
                 </Pressable>
+                <Pressable
+                    style={getWidthHeight(164, 175, {
+                        padding: widthScale(20),
+                        marginVertical: widthScale(20),
+                        backgroundColor: 'rgba(235, 238, 250, 0.96)',
+                        borderRadius: widthScale(10),
+                        justifyContent: 'center',
+                    })}
+                    onPress={() => {
+                        navigation.navigate('MaskedTextScreen', {});
+                    }}>
+                    <Text
+                        style={{
+                            fontSize: widthScale(18),
+                            fontWeight: 700,
+                            textAlign: 'center',
+                        }}>
+                        {`MaskedText Memoh`}
+                    </Text>
+                </Pressable>
+                <Pressable
+                    style={getWidthHeight(164, 175, {
+                        padding: widthScale(20),
+                        marginVertical: widthScale(20),
+                        backgroundColor: 'rgba(235, 238, 250, 0.96)',
+                        borderRadius: widthScale(10),
+                        justifyContent: 'center',
+                    })}
+                    onPress={() => {
+                        navigation.navigate('AnimTabBarScreen', {});
+                    }}>
+                    <Text
+                        style={{
+                            fontSize: widthScale(18),
+                            fontWeight: 700,
+                            textAlign: 'center',
+                        }}>
+                        {`AnimTabBarScreen`}
+                    </Text>
+                </Pressable>
             </ScrollView>
         </View>
     );

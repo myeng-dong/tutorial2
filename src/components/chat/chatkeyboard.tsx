@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { FlatList, Text, TextInput, View } from 'react-native';
+import { FlatList, Pressable, Text, TextInput, View } from 'react-native';
 import { getTextStyles, widthScale } from '../../common/util';
 // const { PLUS_BLACK_ICON, SEND_FOCUS_ICON, SEND_NOFOCUS_ICON } = ICONS;
 export type Chat = {
@@ -24,8 +24,10 @@ export type Chat = {
 const ChatKeyBoard = () => {
     const [chat, setChat] = useState('');
     const refInput = useRef<TextInput>(null);
-
+    const [chatData, setChatData] = useState(Array.from({ length: 10 }, (_, i) => `${i}`));
+    const inputRef = useRef<TextInput>(null);
     const [mode, setMode] = useState<'menu' | 'photos' | 'albums' | 'camera'>('menu');
+    const flatListRef = useRef<FlatList>(null);
 
     useEffect(() => {
         console.log(mode);
@@ -34,10 +36,9 @@ const ChatKeyBoard = () => {
     return (
         <View style={{ flex: 1 }}>
             <FlatList
-                // ref={flatListRef}
+                ref={flatListRef}
                 style={{ backgroundColor: 'blue' }}
-                contentContainerStyle={{}}
-                data={[0, 1, 2, 3, 4, 0, 1, 2, 3, 4, 0, 1, 2, 3, 4]}
+                data={chatData}
                 renderItem={(event) => {
                     return (
                         <View>
@@ -59,31 +60,42 @@ const ChatKeyBoard = () => {
                                     <Text
                                         style={getTextStyles('RG', '#222', 16, 20, {
                                             flex: 1,
-                                        })}>{`chatting${event.index}`}</Text>
+                                        })}>{`${event.item}`}</Text>
                                 </View>
                             </View>
                         </View>
                     );
                 }}
                 inverted={true}
-                onEndReached={() => {}}
+                onEndReached={() => {
+                    console.log('end');
+                }}
+                onEndReachedThreshold={0.2}
             />
-            <View
-                // behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-                style={{ height: 50, backgroundColor: 'red' }}>
-                <TextInput
-                    ref={refInput}
-                    multiline={true}
-                    style={getTextStyles('RG', '#424242', 14, 20, {
-                        padding: 0,
-                        flex: 1,
-                        lineHeight: widthScale(14),
-                    })}
-                    value={chat}
-                    onChangeText={setChat}
-                    placeholder="메세지 보내기"
-                    placeholderTextColor={'#9E9E9E'}
-                />
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', height: 50 }}>
+                <View style={{ backgroundColor: 'red', flex: 1 }}>
+                    <TextInput
+                        ref={refInput}
+                        multiline={true}
+                        style={getTextStyles('RG', '#424242', 14, 20, {
+                            padding: 0,
+                            flex: 1,
+                            lineHeight: widthScale(14),
+                        })}
+                        value={chat}
+                        onChangeText={setChat}
+                        placeholder="메세지 보내기"
+                        placeholderTextColor={'#9E9E9E'}
+                    />
+                </View>
+                <Pressable
+                    onPress={() => {
+                        setChatData([chat, ...chatData]);
+                        setChat('');
+                        flatListRef.current?.scrollToOffset({ offset: 0, animated: false });
+                    }}>
+                    <Text>POST</Text>
+                </Pressable>
             </View>
         </View>
     );

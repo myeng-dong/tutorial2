@@ -48,3 +48,17 @@ export const dummyArr = [
     { x: '2026-11월', y: Math.ceil(Math.random() * 100) },
     { x: '2026-12월', y: Math.ceil(Math.random() * 100) },
 ];
+export interface ImageSliderProps extends ImageUrls {
+    index: number;
+}
+export interface ImageUrls {
+    url: string;
+}
+export const ImageSlider: ImageUrls[] = [
+    {
+        url: 'https://images.freeimages.com/image/previews/e41/christmas-gift-box-ribbon-art-5698119.jpg?fmt=webp&w=500',
+    },
+    { url: 'https://images.freeimages.com/images/large-previews/0ff/christmas-pattern-1056207.jpg?fmt=webp&w=500' },
+    { url: 'https://images.freeimages.com/images/large-previews/2c7/ho-ho-hooo-1578467.jpg?fmt=webp&w=500' },
+    { url: 'https://images.freeimages.com/image/previews/002/xmas-glow-in-red-vector-5690822.jpg?fmt=webp&w=500' },
+];

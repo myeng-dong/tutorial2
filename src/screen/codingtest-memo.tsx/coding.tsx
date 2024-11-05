@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Pressable, Text, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { getWidthHeight, widthScale } from '../../common/util';
@@ -8,86 +8,51 @@ import CodingTestScreen2 from './coding2';
 const CodingTestScreen = () => {
     const insets = useSafeAreaInsets();
     const [value, setValue] = useState('');
-    const recursion = (count: number) => {
-        let clockArrs = Array.from({ length: count }).map((_, height) =>
-            Array.from({ length: count }).map((_, width) => {
-                return 0;
-            }),
-        ) as (number | undefined)[][];
-        for (let equalNum = 0; equalNum <= count / 2; equalNum++) {
-            let updateMaxCount = Array.from({ length: equalNum })
-                .map((_, y) => y)
-                .map((_, index) => count - index * 2 + (count - index * 2 - 1) * 2 + count - 2 - index * 2)
-                .reduce((acc, cur) => acc + cur, 0);
-            let updateMinCount = Array.from({ length: equalNum })
-                .map((_, y) => y)
-                .map((_, index) => (count - 2 - index * 2) * 2 + (count - 3 - index * 2) * 2)
-                .reduce((acc, cur) => acc + cur, 0);
+    const textRef = useRef<TextInput>(null);
 
-            clockArrs = clockArrs.map((x, height) =>
-                x.map((y, width) => {
-                    if (
-                        equalNum == 0 &&
-                        !([height, width].includes(equalNum) || [height, width].includes(count - 1 - equalNum))
-                    )
-                        return y;
-                    if (
-                        equalNum !== 0 &&
-                        (width <= equalNum - 1 ||
-                            width > count - 1 - equalNum ||
-                            height <= equalNum - 1 ||
-                            height > count - 1 - equalNum)
-                    )
-                        return y;
-                    if (height == equalNum) {
-                        if (count * count < updateMaxCount + (width - equalNum) + 1) return y;
-                        return updateMaxCount + (width - equalNum) + 1;
-                    }
-                    if (width == count - 1 - equalNum) {
-                        if (count * count < updateMaxCount + (count - equalNum * 2 + (height - equalNum))) return y;
-                        return updateMaxCount + (count - equalNum * 2 + (height - equalNum));
-                    }
-                    if (height == count - 1 - equalNum) {
-                        return updateMinCount + (count + (count - 1) * 2) - (width - equalNum);
-                    }
-                    if (width == equalNum) {
-                        if (height == equalNum) return y;
-                        if (updateMinCount + (count + (count - 1) * 2) == count * count) return count * count;
-                        if (
-                            count * count <
-                            updateMinCount + (count + (count - 1) * 2) + (count - equalNum * 2 - height)
-                        )
-                            return y;
-                        return updateMinCount + (count + (count - 1) * 2) + (count - 1 - equalNum - height);
-                    }
-                    return y;
-                }),
-            );
-        }
-
-        return clockArrs;
-    };
     return (
         <View style={{ flex: 1, marginTop: insets.top, alignItems: 'center', justifyContent: 'center' }}>
-            <KeyboardAwareScrollView horizontal style={{}}>
-                <View
+            <KeyboardAwareScrollView style={{}}>
+                {/* <View
                     style={{
                         flexDirection: 'row',
                         alignItems: 'center',
                         width: widthScale(375),
                         backgroundColor: '#FAFAFA',
                     }}>
-                    <View style={{ borderWidth: 1, marginBottom: widthScale(40), width: widthScale(200) }}>
-                        <TextInput
-                            style={{ fontSize: 30, textAlign: 'center' }}
-                            value={value}
-                            onChangeText={setValue}
-                        />
-                    </View>
                     <Pressable
                         onPress={() => {
-                            console.log(recursion(parseInt(value)));
+                            textRef.current?.focus();
                         }}
+                        style={{ borderWidth: 1, marginBottom: widthScale(40), width: widthScale(200) }}>
+                        <View style={{ flexDirection: 'row' }}>
+                            <TextInput
+                                style={{
+                                    fontSize: 30,
+                                    textAlign: 'center',
+                                    backgroundColor: 'red',
+                                    height: 20,
+                                    width: 100,
+                                }}
+                                value={value}
+                            />
+                            <TextInput
+                                caretHidden
+                                ref={textRef}
+                                style={{
+                                    fontSize: 30,
+                                    textAlign: 'center',
+                                    backgroundColor: 'red',
+                                    height: 20,
+                                    width: 100,
+                                }}
+                                onChangeText={setValue}
+                            />
+                        </View>
+                    </Pressable>
+
+                    <Pressable
+                        onPress={() => {}}
                         style={getWidthHeight(100, 100, {
                             backgroundColor: 'blue',
                             alignItems: 'center',
@@ -95,9 +60,30 @@ const CodingTestScreen = () => {
                         })}>
                         <Text style={{ color: '#fff', fontSize: 30 }}>Press answer!!</Text>
                     </Pressable>
+                </View> */}
+                {/* <View style={{ marginTop: 100 }}>
+                    <Text>
+                        <TextInput style={{ height: 20, width: 100 }} />
+                        is a knowledge community in which we can ask programming questions and we can answer others’
+                        programming questions.
+                    </Text>
                 </View>
                 <View style={{ width: widthScale(375) }}>
                     <CodingTestScreen2 />
+                </View> */}
+                <View
+                    style={{
+                        flex: 1,
+                        backgroundColor: 'white',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                    }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', maxWidth: widthScale(343) }}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap' }}>
+                            <Text style={{ fontSize: 20 }}>Username</Text>
+                            <TextInput style={{ fontSize: 20 }} multiline />
+                        </View>
+                    </View>
                 </View>
             </KeyboardAwareScrollView>
         </View>

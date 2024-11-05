@@ -1,23 +1,17 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
     FlatList,
-    Image,
     ListRenderItemInfo,
     NativeScrollEvent,
-    NativeScrollPoint,
     NativeSyntheticEvent,
-    Platform,
     Pressable,
     Text,
-    TouchableOpacity,
     View,
     ViewToken,
 } from 'react-native';
 
-import { getDay, getWeeksInMonth, setYear } from 'date-fns';
-import ICONS from '../../common/variables/icons';
-import { getWidthHeight, widthScale } from '../../common/util';
 import { DateTime, PossibleDaysInMonth } from 'luxon';
+import { widthScale } from '../../common/util';
 interface DateProps {
     date: DateTime;
     isToday: boolean;
@@ -37,7 +31,6 @@ export const CustomNewCalMine = () => {
     const STARTWEEKMONDAY = false;
     const RENDERCOUNT = 4;
     const TODAY: DateTime = DateTime.now();
-    const [todayIndex, setTodayIndex] = useState<number>(0);
     const CUSTOMWIDTH = widthScale(375 / 7);
     const [weekTitle, setWeekTitle] = useState<string[]>(
         STARTWEEKMONDAY ? ['월', '화', '수', '목', '금', '토', '일'] : ['일', '월', '화', '수', '목', '금', '토'],
@@ -45,6 +38,9 @@ export const CustomNewCalMine = () => {
     const [dateData, setDateData] = useState<MonthData | undefined>(undefined);
     const dateFlatList = useRef<FlatList>(null);
     const renderFlag = useRef<boolean>(false);
+    const [titleMonth, setTitleMonth] = useState(`${DateTime.now().month}`);
+    const [titleYear, setTitleYear] = useState(`${DateTime.now().year}`);
+    const [selectDate, setSelectDate] = useState(DateTime.now());
 
     const [currentObjectInfo, setCurrentObjectInfo] = useState<onViewableItemsChangedInfo | undefined>(undefined);
     const onViewableItemsChanged = useRef((info: onViewableItemsChangedInfo): void => {
@@ -183,7 +179,7 @@ export const CustomNewCalMine = () => {
                         return (
                             <Pressable
                                 onPress={() => {
-                                    console.log(days);
+                                    setSelectDate(days.date);
                                 }}
                                 style={{ width: CUSTOMWIDTH, alignItems: 'center', height: widthScale(50) }}>
                                 <View>
@@ -256,6 +252,19 @@ export const CustomNewCalMine = () => {
         }
         renderFlag.current == false;
     }
+    useEffect(() => {
+        if (!dateData) return;
+        setTitleMonth(
+            `${
+                currentObjectInfo?.viewableItems[0]?.item[1][0]?.date.month ??
+                dateData![0][1][0].date.plus({ month: 2 }).month ??
+                ''
+            }`,
+        );
+        setTitleYear(
+            `${currentObjectInfo?.viewableItems[0]?.item[1][0]?.date.year ?? dateData![0][1][0].date.year ?? ''}`,
+        );
+    }, [currentObjectInfo?.viewableItems]);
 
     useEffect(() => {
         setDateData(getCurrentMonth());
@@ -265,14 +274,8 @@ export const CustomNewCalMine = () => {
         <View style={{ paddingTop: widthScale(40) }}>
             {dateData !== undefined && (
                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                    <Text>
-                        {currentObjectInfo?.viewableItems[0]?.item[1][0]?.date.year ?? dateData![0][1][0].date.year}년{' '}
-                    </Text>
-                    <Text>
-                        {currentObjectInfo?.viewableItems[0]?.item[1][0]?.date.month ??
-                            dateData![0][1][0].date.plus({ month: 2 }).month}
-                        월
-                    </Text>
+                    <Text>{titleYear}년 </Text>
+                    <Text>{titleMonth}월 </Text>
                 </View>
             )}
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
@@ -283,6 +286,7 @@ export const CustomNewCalMine = () => {
                     horizontal
                     pagingEnabled
                     showsHorizontalScrollIndicator={false}
+                    style={{ height: widthScale(300) }}
                     bounces={false}
                     ref={dateFlatList}
                     data={dateData}
@@ -306,14 +310,19 @@ export const CustomNewCalMine = () => {
                     onViewableItemsChanged={onViewableItemsChanged.current}
                 />
             )}
-            <Pressable
-                onPress={() => {
-                    setDateData(getCustomMonth(DateTime.now()));
-                    dateFlatList.current?.scrollToIndex({ index: 1, animated: false });
-                }}
-                style={{ alignSelf: 'flex-end' }}>
-                <Text>Today</Text>
-            </Pressable>
+            <View>
+                <Text>{`${selectDate}`}</Text>
+                <Pressable
+                    onPress={() => {
+                        setDateData(getCustomMonth(DateTime.now()));
+                        dateFlatList.current?.scrollToIndex({ index: 1, animated: false });
+                        setTitleYear(`${DateTime.now().year}`);
+                        setTitleMonth(`${DateTime.now().month}`);
+                    }}
+                    style={{ alignSelf: 'flex-end' }}>
+                    <Text>Today!!</Text>
+                </Pressable>
+            </View>
         </View>
     );
 };

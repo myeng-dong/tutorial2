@@ -17,6 +17,8 @@ import ChartScreen from '../screen/chart/dounut-chart';
 import LocationResponse from '../screen/location-response/location-response';
 import BannerScrollViewScreen from '../screen/banner-scrollview/banner-scrollview';
 import ChatKeyBoardScreen from '../screen/chat-keyboard/chat-keyboard';
+import MaskedTextScreen from '../screen/masked-text/animation-text';
+import AnimTabBarScreen from '../screen/anim-tab-bar/anim-tab-bar';
 
 export type NavigationParamsList = {
     MainScreen: {};
@@ -33,6 +35,8 @@ export type NavigationParamsList = {
     LocationResponse: {};
     BannerScrollViewScreen: {};
     ChatKeyBoardScreen: {};
+    MaskedTextScreen: {};
+    AnimTabBarScreen: {};
 };
 
 const MyTheme = {
@@ -144,6 +148,22 @@ export const AppStackNavigationFNC = () => {
                 <Stack.Screen
                     name="ChatKeyBoardScreen"
                     component={ChatKeyBoardScreen}
+                    options={{
+                        headerShown: false,
+                        // presentation: 'containedTransparentModal',
+                    }}
+                />
+                <Stack.Screen
+                    name="MaskedTextScreen"
+                    component={MaskedTextScreen}
+                    options={{
+                        headerShown: false,
+                        // presentation: 'containedTransparentModal',
+                    }}
+                />
+                <Stack.Screen
+                    name="AnimTabBarScreen"
+                    component={AnimTabBarScreen}
                     options={{
                         headerShown: false,
                         // presentation: 'containedTransparentModal',

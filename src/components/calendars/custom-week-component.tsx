@@ -1,159 +1,377 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Pressable, ScrollView, Text, View } from 'react-native';
-import { widthScale } from '../../common/util';
-import { startOfDay, startOfWeek, weeksToDays } from 'date-fns';
-interface CustomProps {
-    month: number;
-    getNowDateString: (text: string) => void;
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import {
+    FlatList,
+    Image,
+    ListRenderItemInfo,
+    NativeScrollEvent,
+    NativeSyntheticEvent,
+    Pressable,
+    Text,
+    View,
+    ViewToken,
+} from 'react-native';
+
+import { DateTime, PossibleDaysInMonth } from 'luxon';
+import { getWidthHeight, widthScale } from '../../common/util';
+interface DateProps {
+    date: DateTime;
+    isToday: boolean;
 }
-const WeekCalendarComponent = (props: CustomProps) => {
-    const { month, getNowDateString } = props;
-    let today = new Date();
-    const year_today = today.getFullYear();
-    const month_today = today.getMonth();
-    const date_today = today.getDate();
-    const [getMonth, setGetMonth] = useState(month_today);
-    const [getYear, setGetYear] = useState(year_today);
-    const [selDay, setSelDay] = useState(date_today);
-    const [selMonth, setSelMonth] = useState(month_today + 1);
-    const [selYear, setSelYear] = useState(year_today);
-    const [nowWeek, setNowWeek] = useState(startOfWeek(new Date()).getDate());
-    const scrollRef = useRef<ScrollView>(null);
-    useEffect(() => {}, []);
 
-    const [page, setPage] = useState(0);
-    const [monthPage, setMonthPage] = useState(0);
-    const [dateText, setDateText] = useState('');
-    // 지난달 마지막날과 이번달 마지막날
-    const prevLast = new Date(getYear, month, 0); // 2024 03 31 토
-    const thisLast = new Date(getYear, month + 1, 0); // 2024 04 30
-
-    const PLDate = prevLast.getDate(); // 지난달 마지막 날
-    const PLDay = prevLast.getDay(); // 지난달 마지막 요일
-    const TLDate = thisLast.getDate(); // 이번달 마지막 날
-    const TLDay = thisLast.getDay(); // 이번달 마지막 요일
-    const prevDates = [];
-    const thisDates = [...Array(TLDate + 1).keys()].slice(1);
-    const nextDates = [];
-    // 달력 합치기 -----
-    if (PLDay !== 6) {
-        for (let i = 0; i < PLDay + 1; i++) {
-            prevDates.unshift(PLDate - i); // 지난달 날짜들 넣어줌
-        }
-    }
-    for (let i = 1; i < 7 - TLDay; i++) {
-        nextDates.push(i); // 다음달 날짜를 넣어줌
-    }
-    const dates = prevDates.concat(thisDates, nextDates); // 지난달 이번달 다음달 합쳐주기
-    const todayMonth = [0, 1, 2, 3, 4, 5, 6]
-        .map((week, y) => dates.slice(y * 7, (y + 1) * 7))
-        .filter((x) => x.length !== 0);
-
-    const dateString = todayMonth.map((week, y) => {
-        return `${getMonth + 1}월 ${y + 1}주`;
-    });
-
-    const firstDateIndex = dates.indexOf(1); // 이번달 1일의 인덱스 찾기
-
-    useEffect(() => {
-        getNowDateString(
-            `${getYear}.${getMonth + 1}.${todayMonth[page][0]} ~ ${getYear}.${getMonth + 1}.${todayMonth[page][6]}`,
-        );
-    }, [page]);
-    useEffect(() => {
-        setPage(todayMonth.findIndex((x) => x.indexOf(nowWeek) != -1));
-        scrollRef.current?.scrollTo({ y: widthScale(375) * 4 });
-        todayMonth.pop();
-    }, []);
-    return (
-        <ScrollView
-            horizontal
-            showsVerticalScrollIndicator={false}
-            showsHorizontalScrollIndicator={false}
-            pagingEnabled
-            style={{ width: widthScale(375), flex: 1 }}
-            onScroll={(event) => {
-                setPage(Math.round(event.nativeEvent.contentOffset.x / widthScale(375)));
-            }}>
-            {todayMonth.map((week, y) => {
-                return (
-                    <View style={{ flexDirection: 'row', width: widthScale(375) }}>
-                        {week.map((date, i) => {
-                            // // 오늘인지
-                            // let isToday = year_today == getYear && month_today == month && date == date_today;
-                            // // 비활성 날짜(첫일 말일 전달 후달 일자)
-                            // const noSelDate = (y == 0 && i < firstDateIndex) || (y > 2 && date < 7);
-                            // // 해당 달 활성날짜 중 이미 지난날짜
-                            // const disableNowMonthDate =
-                            //     year_today == getYear && month_today == month && date < date_today;
-                            // const disableLaterMonth = year_today >= getYear && month_today > month;
-                            // // 고른날짜
-                            // let isSelect = selDay == date && !noSelDate && selMonth == month + 1 && selYear == getYear;
-                            // // 비활성 날짜 및 주말 적용
-                            // const condition =
-                            //     noSelDate || disableNowMonthDate || disableLaterMonth
-                            //         ? '#9E9E9E'
-                            //         : i == 0 || i == 6
-                            //         ? 'red'
-                            //         : '#222';
-                            return (
-                                <Pressable
-                                    onPress={() => {
-                                        // if (noSelDate && date < 7) {
-                                        //     return nextMonth();
-                                        // }
-                                        // if (noSelDate && date > 20) {
-                                        //     if (disableNowMonthDate) return;
-                                        //     if (disableLaterMonth) return;
-                                        //     return prevMonth();
-                                        // }
-                                        // if (disableNowMonthDate) return;
-                                        // if (disableLaterMonth) return;
-                                        setSelDay(date);
-                                        setSelMonth(month + 1);
-                                        setSelYear(getYear);
-                                    }}
-                                    style={[
-                                        {
-                                            flex: 1,
-                                            alignItems: 'center',
-                                            height: widthScale(50),
-                                            justifyContent: 'center',
-                                        },
-                                    ]}>
-                                    <View
-                                        style={{
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                            width: widthScale(35),
-                                            height: widthScale(35),
-                                            borderRadius: widthScale(35),
-                                            overflow: 'hidden',
-                                            // backgroundColor: isSelect
-                                            //     ? '#006934'
-                                            //     : isToday
-                                            //     ? noSelDate
-                                            //         ? 'transparent'
-                                            //         : '#E6F0EB'
-                                            //     : 'transparent',
-                                        }}>
-                                        <Text
-                                            style={{
-                                                fontWeight: 600,
-                                                // color: isSelect ? '#fff' : condition,
-                                                fontSize: 14,
-                                            }}>
-                                            {date}
-                                        </Text>
-                                    </View>
-                                </Pressable>
-                            );
-                        })}
-                    </View>
-                );
-            })}
-        </ScrollView>
-    );
+type onViewableItemsChangedInfo = {
+    viewableItems: Array<ViewToken<CalendarData>>;
+    changed: Array<ViewToken<CalendarData>>;
 };
 
-export default WeekCalendarComponent;
+export type WeekData = DateProps[];
+export type CalendarData = WeekData[];
+export type MonthData = CalendarData[];
+
+export const WeekCalendarComponent = () => {
+    // 월요일 시작이면 true 일요일 시작이면 false
+    const STARTWEEKMONDAY = false;
+    const RENDERCOUNT = 4;
+    const TODAY: DateTime = DateTime.now();
+    const CUSTOMWIDTH = widthScale(375 / 7);
+    const [weekTitle, setWeekTitle] = useState<string[]>(
+        STARTWEEKMONDAY ? ['월', '화', '수', '목', '금', '토', '일'] : ['일', '월', '화', '수', '목', '금', '토'],
+    );
+    const [dateData, setDateData] = useState<MonthData | undefined>(undefined);
+    const dateFlatList = useRef<FlatList>(null);
+    const renderFlag = useRef<boolean>(false);
+    const [titleMonth, setTitleMonth] = useState(`${DateTime.now().month}`);
+    const [titleYear, setTitleYear] = useState(`${DateTime.now().year}`);
+    const [selectDate, setSelectDate] = useState(DateTime.now());
+    const currentIdx = useRef(1);
+    const [loading, setLoading] = useState(false);
+
+    const [currentObjectInfo, setCurrentObjectInfo] = useState<onViewableItemsChangedInfo | undefined>(undefined);
+    const onViewableItemsChanged = useRef((info: onViewableItemsChangedInfo): void => {
+        setCurrentObjectInfo(info);
+    });
+
+    function handleScroll(event: NativeSyntheticEvent<NativeScrollEvent>): void {
+        const distanceFromStart = event.nativeEvent.contentOffset;
+        if (distanceFromStart.x === 0) {
+            if (renderFlag.current) return;
+            prependData();
+            renderFlag.current = true;
+        } else {
+            renderFlag.current = false;
+        }
+    }
+
+    const generateCurrentWeek = useCallback(() => {
+        return weekTitle.map((item, index) => {
+            return (
+                <View style={{ width: widthScale(375 / 7), alignItems: 'center' }}>
+                    <Text>{item}</Text>
+                </View>
+            );
+        });
+    }, []);
+
+    const prependMissingDay = (data: WeekData, currentYear: number, currentMonth: number): WeekData => {
+        if (data.length === 7) return data;
+        const numberOfMissingDay: number = 7 - data.length;
+        let m = currentMonth - 1;
+        let y = currentYear;
+        if (currentMonth === 1) {
+            m = 12;
+            y = currentYear - 1;
+        }
+        const numberOfDayInThePreviousMonth = DateTime.local(y, m).daysInMonth;
+        if (numberOfDayInThePreviousMonth !== undefined) {
+            for (let i: number = 0; i < numberOfMissingDay; i++) {
+                data = [
+                    {
+                        date: DateTime.local(y, m, numberOfDayInThePreviousMonth - i),
+                        isToday: false,
+                    },
+                    ...data,
+                ];
+            }
+        }
+        return data;
+    };
+
+    const appendMissingDay = (data: WeekData, currentYear: number, currentMonth: number): WeekData => {
+        if (data.length === 7) return data;
+        const numberOfMissingDay: number = 7 - data.length;
+        let m = currentMonth + 1;
+        let y = currentYear;
+        if (currentMonth === 12) {
+            m = 1;
+            y = currentYear + 1;
+        }
+        for (let i: number = 0; i < numberOfMissingDay; i++) {
+            data = [
+                ...data,
+                {
+                    date: DateTime.local(y, m, 1 + i),
+                    isToday: false,
+                },
+            ];
+        }
+        return data;
+    };
+
+    const getDaysInMonth = (month: number, year: number): DateTime[] => {
+        const date: DateTime = DateTime.local(year, month);
+        const daysInMonth: PossibleDaysInMonth | undefined = date.daysInMonth;
+        return Array.from(Array(daysInMonth), (_, x: number) => {
+            return DateTime.local(year, month, x + 1);
+        });
+    };
+
+    const getDaysInMonthSplitByWeek = (month: number, year: number, complete: boolean = true): CalendarData => {
+        setLoading(true);
+        const dayInMonth: DateTime[] = getDaysInMonth(month, year);
+        const result: CalendarData = [];
+        let tempArray: WeekData = [];
+        dayInMonth.reduce((previousValue: DateTime, currentValue: DateTime, currentIndex: number) => {
+            const isToday: boolean =
+                currentValue.toLocaleString(DateTime.DATE_SHORT) ===
+                DateTime.local().toLocaleString(DateTime.DATE_SHORT);
+            tempArray.push({ date: currentValue, isToday });
+            if (currentValue.weekday === (STARTWEEKMONDAY ? 7 : 6) || currentIndex === dayInMonth.length - 1) {
+                result.push(tempArray);
+                tempArray = [];
+            }
+            return currentValue;
+        }, dayInMonth[0]);
+        if (complete) {
+            result[0] = prependMissingDay(result[0], year, month);
+            const lastElem = result.length - 1;
+            result[lastElem] = appendMissingDay(result[lastElem], year, month);
+        }
+        setTimeout(() => setLoading(false), 100);
+        return result;
+    };
+    // 현재 달
+    const getCurrentMonth = (): MonthData => {
+        const now: DateTime = DateTime.now();
+        const prevMonth = now.month - 1 == 0 ? 12 : now.month - 1;
+        const prevYaer = now.month - 1 == 0 ? now.year - 1 : now.year;
+        const nextMonth = now.month + 1 == 13 ? 1 : now.month + 1;
+        const nextYear = now.month + 1 == 13 ? 1 : now.year;
+        return [
+            getDaysInMonthSplitByWeek(prevMonth, prevYaer),
+            getDaysInMonthSplitByWeek(now.month, now.year),
+            getDaysInMonthSplitByWeek(nextMonth, nextYear),
+        ];
+    };
+
+    // 지정달
+    const getCustomMonth = (date: DateTime): MonthData => {
+        const now: DateTime = date;
+        const prevMonth = now.month - 1 == 0 ? 12 : now.month - 1;
+        const prevYaer = now.month - 1 == 0 ? now.year - 1 : now.year;
+        const nextMonth = now.month + 1 == 13 ? 1 : now.month + 1;
+        const nextYear = now.month + 1 == 13 ? 1 : now.year;
+        return [
+            getDaysInMonthSplitByWeek(prevMonth, prevYaer),
+            getDaysInMonthSplitByWeek(now.month, now.year),
+            getDaysInMonthSplitByWeek(nextMonth, nextYear),
+        ];
+    };
+
+    const renderDays = (week: CalendarData) => {
+        return week.map((weeks, weekIdx) => {
+            return (
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    {weeks.map((days, dayIdx) => {
+                        return (
+                            <Pressable
+                                onPress={() => {
+                                    setSelectDate(days.date);
+                                }}
+                                style={{ width: CUSTOMWIDTH, alignItems: 'center', height: widthScale(50) }}>
+                                <View>
+                                    <Text>{days.date.day}</Text>
+                                </View>
+                            </Pressable>
+                        );
+                    })}
+                </View>
+            );
+        });
+    };
+    function getAMonth(date: DateTime): MonthData {
+        return [getDaysInMonthSplitByWeek(date.month, date.year)];
+    }
+
+    function appendData(): void {
+        if (dateData === undefined) return;
+        renderFlag.current == true;
+        const weekLength = dateData[dateData?.length - 1].length;
+        const lastDate: DateProps = dateData[dateData?.length - 1][weekLength - 1][6];
+        const lastDateMonthSize: PossibleDaysInMonth | undefined = lastDate.date.daysInMonth;
+        let nextDateData;
+        if (lastDateMonthSize === lastDate.date.day) {
+            let d: DateTime = DateTime.local(lastDate.date.year, lastDate.date.month, lastDate.date.day);
+            d = d.plus({ month: 1 });
+            if (d.month === 12 && d.day === 31) {
+                d = d.plus({ year: 1 });
+                d = d.set({ month: 1, day: 1 });
+            }
+            nextDateData = getAMonth(d);
+        } else {
+            nextDateData = getAMonth(lastDate.date);
+        }
+        let item = [...dateData, ...nextDateData];
+        if (dateData.length == RENDERCOUNT) {
+            dateFlatList.current?.scrollToIndex({ index: 2, animated: false });
+            setDateData([...item.slice(1, item.length - 1)]);
+        } else {
+            setDateData([...item]);
+        }
+        renderFlag.current == false;
+    }
+
+    function prependData(): void {
+        if (dateData === undefined) return;
+        renderFlag.current == true;
+        const firstDate: DateProps = dateData[0][0][0];
+        let previousDateData;
+        if (firstDate.date.day === 1) {
+            let d: DateTime = DateTime.local(firstDate.date.year, firstDate.date.month, firstDate.date.day);
+            d = d.minus({ month: 1 });
+            if (d.month === 1 && d.day === 1) {
+                d = d.minus({ year: 1 });
+                d = d.set({ month: 12, day: 1 });
+            }
+            previousDateData = getAMonth(d);
+        } else {
+            previousDateData = getAMonth(firstDate.date);
+        }
+        const item = [...previousDateData, ...dateData];
+        if (dateFlatList.current !== undefined) {
+            if (dateData.length == RENDERCOUNT) {
+                setDateData([...item.slice(0, item.length - 2)]);
+                dateFlatList.current?.scrollToIndex({ index: 1, animated: false });
+            } else {
+                setDateData([...item]);
+                dateFlatList.current?.scrollToIndex({ index: 1, animated: false });
+            }
+        }
+        renderFlag.current == false;
+    }
+    useEffect(() => {
+        if (!dateData) return;
+        setTitleMonth(
+            `${
+                currentObjectInfo?.viewableItems[0]?.item[1][0]?.date.month ??
+                dateData![0][1][0].date.plus({ month: 2 }).month ??
+                ''
+            }`,
+        );
+        setTitleYear(
+            `${currentObjectInfo?.viewableItems[0]?.item[1][0]?.date.year ?? dateData![0][1][0].date.year ?? ''}`,
+        );
+    }, [currentObjectInfo?.viewableItems]);
+
+    useEffect(() => {
+        setDateData(getCurrentMonth());
+    }, []);
+
+    return (
+        <View style={{ paddingTop: widthScale(40) }}>
+            <View
+                style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    paddingHorizontal: widthScale(16),
+                    paddingVertical: widthScale(24),
+                }}>
+                <Pressable
+                    onPress={() => {
+                        if (!dateData) return console.log('this1');
+                        if (loading) return console.log('this2');
+                        if (currentObjectInfo?.viewableItems[0]) {
+                            const currentIndex = currentObjectInfo.viewableItems[0].index;
+                            if (currentIndex == null || currentIndex < 0) return console.log('this3');
+                            console.log(currentIndex);
+                            dateFlatList.current?.scrollToIndex({
+                                index: (currentIndex ?? 1) - 1 < 0 ? 0 : (currentIndex ?? 1) - 1,
+                                animated: true,
+                            });
+                        }
+                    }}>
+                    <Image source={require('../../assets/icons/arrow-left-icon.png')} style={getWidthHeight(24, 24)} />
+                </Pressable>
+                {/* <Text style={{ textAlign: 'center' }}>{dateString}</Text> */}
+                <Pressable
+                    onPress={() => {
+                        if (!dateData) return;
+                        if (loading) return;
+                        if (currentObjectInfo?.viewableItems[0]) {
+                            const currentIndex = currentObjectInfo.viewableItems[0].index;
+                            if (currentIndex == null || currentIndex == 3) return;
+                            dateFlatList.current?.scrollToIndex({
+                                index: (currentObjectInfo.viewableItems[0].index ?? 1) + 1,
+                                animated: true,
+                            });
+                        }
+                    }}>
+                    <Image
+                        source={require('../../assets/icons/arrow-left-icon.png')}
+                        style={getWidthHeight(24, 24, { transform: [{ rotate: '180deg' }] })}
+                    />
+                </Pressable>
+            </View>
+            {dateData !== undefined && (
+                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                    <Text>{titleYear}년 </Text>
+                    <Text>{titleMonth}월 </Text>
+                </View>
+            )}
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                {generateCurrentWeek()}
+            </View>
+            {dateData !== undefined && (
+                <FlatList
+                    horizontal
+                    pagingEnabled
+                    showsHorizontalScrollIndicator={false}
+                    style={{ height: widthScale(300) }}
+                    bounces={false}
+                    ref={dateFlatList}
+                    data={dateData}
+                    renderItem={(item: ListRenderItemInfo<CalendarData>) => <View>{renderDays(item.item)}</View>}
+                    initialScrollIndex={1}
+                    getItemLayout={(_, index: number): { length: number; offset: number; index: number } => ({
+                        length: widthScale(375),
+                        offset: widthScale(375) * index,
+                        index,
+                    })}
+                    onEndReachedThreshold={0.5}
+                    onEndReached={() => {
+                        appendData();
+                    }}
+                    onMomentumScrollBegin={() => renderFlag.current == true}
+                    onScroll={(event: NativeSyntheticEvent<NativeScrollEvent>): void => {
+                        handleScroll(event);
+                    }}
+                    scrollEventThrottle={16}
+                    viewabilityConfig={{ itemVisiblePercentThreshold: 40 }}
+                    onViewableItemsChanged={onViewableItemsChanged.current}
+                />
+            )}
+            <View>
+                <Text>{`${selectDate}`}</Text>
+                <Pressable
+                    onPress={() => {
+                        setDateData(getCustomMonth(DateTime.now()));
+                        dateFlatList.current?.scrollToIndex({ index: 1, animated: false });
+                        setTitleYear(`${DateTime.now().year}`);
+                        setTitleMonth(`${DateTime.now().month}`);
+                    }}
+                    style={{ alignSelf: 'flex-end' }}>
+                    <Text>Today!!</Text>
+                </Pressable>
+            </View>
+        </View>
+    );
+};

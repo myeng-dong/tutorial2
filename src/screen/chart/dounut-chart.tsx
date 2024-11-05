@@ -30,7 +30,7 @@ const ChartScreen = () => {
     };
     return (
         <View style={{ flex: 1, marginTop: insets.top, backgroundColor: '#fff' }}>
-            <View>
+            <ScrollView>
                 <View
                     style={{
                         flexDirection: 'row',
@@ -402,7 +402,7 @@ const ChartScreen = () => {
                             })}></View>
                     </View> */}
                 {/* </View> */}
-            </View>
+            </ScrollView>
         </View>
     );
 };
