@@ -14,7 +14,6 @@ const App = () => {
         backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
     };
 
-    const Stack = createNativeStackNavigator();
     useEffect(() => {
         (Text as any).defaultProps = {
             ...((Text as any).defaultProps || {}),

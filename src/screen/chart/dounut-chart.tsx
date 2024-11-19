@@ -30,7 +30,7 @@ const ChartScreen = () => {
     };
     return (
         <View style={{ flex: 1, marginTop: insets.top, backgroundColor: '#fff' }}>
-            <ScrollView>
+            <ScrollView style={{ flex: 1 }}>
                 <View
                     style={{
                         flexDirection: 'row',
@@ -106,7 +106,7 @@ const ChartScreen = () => {
                 )}
                 {/* Custom Line2 */}
                 {select == 1 && (
-                    <View>
+                    <View style={{ backgroundColor: '#E5E5E5' }}>
                         <Text
                             style={{
                                 fontSize: widthScale(20),
@@ -120,32 +120,35 @@ const ChartScreen = () => {
                         <View
                             style={{
                                 alignSelf: 'center',
-                                backgroundColor: '#020024',
-                                padding: widthScale(20),
-                                paddingTop: 0,
+                                backgroundColor: '#FFF',
+                                paddingTop: widthScale(20),
                                 borderRadius: widthScale(8),
+                                paddingBottom: widthScale(15),
+                                paddingLeft: widthScale(10),
                                 marginBottom: widthScale(20),
                             }}>
                             <CustomLineChart
-                                width={widthScale(300)}
+                                width={widthScale(335)}
                                 height={widthScale(200)}
                                 lineSize={1}
-                                lineColor={'#d0ee17'}
+                                lineColor={'#ACDD21'}
                                 innerLineSize={1}
-                                dotColor={'#d0ee17'}
+                                dotColor={'#ACDD21'}
                                 dotSize={widthScale(3)}
                                 decimal={0}
                                 data={[
-                                    { x: '1월', y: 12 },
-                                    { x: '2월', y: 20 },
-                                    { x: '3월', y: 39 },
-                                    { x: '4월', y: 42 },
-                                    { x: '5월', y: 15 },
+                                    { x: '8/19', y: 12 },
+                                    { x: '8/20', y: 20 },
+                                    { x: '8/21', y: 39 },
+                                    { x: '8/22', y: 42 },
+                                    { x: '8/23', y: 15 },
+                                    { x: '8/24', y: 15 },
+                                    { x: '8/25', y: 30 },
                                 ]}
-                                xLabelFontStyle={getTextStyles('RG', '#FAFAFA', 12, 14)}
-                                yLabelFontStyle={getTextStyles('RG', '#FAFAFA', 10, 12)}
-                                chartBackgroundColor={'#020024'}
-                                chartFillColor={'#E5E5E5'}
+                                xLabelFontStyle={getTextStyles('RG', '#757575', 14, 16)}
+                                yLabelFontStyle={getTextStyles('RG', '#757575', 13, 15)}
+                                chartBackgroundColor={'#fff'}
+                                chartFillColor={'#fff'}
                             />
                         </View>
                     </View>

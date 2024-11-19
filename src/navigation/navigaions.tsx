@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { View, Text } from 'react-native';
 import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import MainScreen from '../screen';
 import {
     NavigationAnimateParentScreen,
@@ -19,6 +18,7 @@ import BannerScrollViewScreen from '../screen/banner-scrollview/banner-scrollvie
 import ChatKeyBoardScreen from '../screen/chat-keyboard/chat-keyboard';
 import MaskedTextScreen from '../screen/masked-text/animation-text';
 import AnimTabBarScreen from '../screen/anim-tab-bar/anim-tab-bar';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 export type NavigationParamsList = {
     MainScreen: {};

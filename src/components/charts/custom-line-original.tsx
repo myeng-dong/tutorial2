@@ -32,7 +32,7 @@ interface CustomLineChartProp {
  * @param required width, height, data
  * @returns JSX.Element
  */
-const CustomLineChart = (props: CustomLineChartProp) => {
+const CustomLineChartOld = (props: CustomLineChartProp) => {
     const {
         width,
         height,
@@ -440,4 +440,4 @@ const CustomLineChart = (props: CustomLineChartProp) => {
     );
 };
 
-export default CustomLineChart;
+export default CustomLineChartOld;

@@ -38,7 +38,7 @@ const SliderItem = (props: SliderItemProps) => {
 
     return (
         <Animated.View style={[styles.itemContainer, animatedStyle]}>
-            <Image
+            <FastImage
                 source={getImageFromUri(item.url)}
                 style={getWidthHeight(300, 500, { borderRadius: widthScale(20) })}
             />
