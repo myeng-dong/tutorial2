@@ -62,3 +62,40 @@ export const ImageSlider: ImageUrls[] = [
     { url: 'https://images.freeimages.com/images/large-previews/2c7/ho-ho-hooo-1578467.jpg?fmt=webp&w=500' },
     { url: 'https://images.freeimages.com/image/previews/002/xmas-glow-in-red-vector-5690822.jpg?fmt=webp&w=500' },
 ];
+
+import { ImageProps } from 'react-native';
+import ICONS from './icons';
+
+export interface OnboardingData {
+    id: number;
+    image: ImageProps;
+    text: string;
+    textColor: string;
+    backgroundColor: string;
+}
+
+const skiaData: OnboardingData[] = [
+    {
+        id: 1,
+        image: ICONS.LOCATION_MARKER,
+        text: 'Lorem Ipsum dolor sit amet',
+        textColor: '#f8dac2',
+        backgroundColor: '#154f40',
+    },
+    {
+        id: 2,
+        image: ICONS.LOCATION_MARKER,
+        text: 'Lorem Ipsum dolor sit amet',
+        textColor: '#154f40',
+        backgroundColor: '#fd94b2',
+    },
+    {
+        id: 3,
+        image: ICONS.LOCATION_MARKER,
+        text: 'Lorem Ipsum dolor sit amet',
+        textColor: 'black',
+        backgroundColor: '#f8dac2',
+    },
+];
+
+export default skiaData;

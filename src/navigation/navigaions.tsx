@@ -19,6 +19,12 @@ import ChatKeyBoardScreen from '../screen/chat-keyboard/chat-keyboard';
 import MaskedTextScreen from '../screen/masked-text/animation-text';
 import AnimTabBarScreen from '../screen/anim-tab-bar/anim-tab-bar';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import AccordionScreen from '../tutorial-example/accordion/accrodion-main';
+import ExampleScreen from '../screen/git-example';
+import CustomToastScreen from '../tutorial-example/toast/custom-toast';
+import LineChartScreen from '../tutorial-example/touchable-line-chart/line-chart';
+import OnboardingScreen from '../tutorial-example/masked-animation/making-main';
+import TrabScreen from '../tutorial-example/masked-animation/trab';
 
 export type NavigationParamsList = {
     MainScreen: {};
@@ -37,6 +43,12 @@ export type NavigationParamsList = {
     ChatKeyBoardScreen: {};
     MaskedTextScreen: {};
     AnimTabBarScreen: {};
+    AccordionScreen: {};
+    ExampleScreen: {};
+    CustomToastScreen: {};
+    LineChartScreen: {};
+    OnboardingScreen: {};
+    TrabScreen: {};
 };
 
 const MyTheme = {
@@ -164,6 +176,54 @@ export const AppStackNavigationFNC = () => {
                 <Stack.Screen
                     name="AnimTabBarScreen"
                     component={AnimTabBarScreen}
+                    options={{
+                        headerShown: false,
+                        // presentation: 'containedTransparentModal',
+                    }}
+                />
+                <Stack.Screen
+                    name="AccordionScreen"
+                    component={AccordionScreen}
+                    options={{
+                        headerShown: false,
+                        // presentation: 'containedTransparentModal',
+                    }}
+                />
+                <Stack.Screen
+                    name="ExampleScreen"
+                    component={ExampleScreen}
+                    options={{
+                        headerShown: false,
+                        // presentation: 'containedTransparentModal',
+                    }}
+                />
+                <Stack.Screen
+                    name="CustomToastScreen"
+                    component={CustomToastScreen}
+                    options={{
+                        headerShown: false,
+                        // presentation: 'containedTransparentModal',
+                    }}
+                />
+                <Stack.Screen
+                    name="LineChartScreen"
+                    component={LineChartScreen}
+                    options={{
+                        headerShown: false,
+                        // presentation: 'containedTransparentModal',
+                    }}
+                />
+                <Stack.Screen
+                    name="OnboardingScreen"
+                    component={OnboardingScreen}
+                    options={{
+                        headerShown: false,
+                        // presentation: 'containedTransparentModal',
+                    }}
+                />
+                <Stack.Screen
+                    name="TrabScreen"
+                    component={TrabScreen}
                     options={{
                         headerShown: false,
                         // presentation: 'containedTransparentModal',

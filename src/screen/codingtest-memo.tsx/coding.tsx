@@ -1,96 +1,82 @@
-import React, { useRef, useState } from 'react';
-import { Pressable, Text, TextInput, View } from 'react-native';
+import React, { useState } from 'react';
+import { LayoutChangeEvent, StyleSheet, View } from 'react-native';
+import Animated, { useAnimatedStyle, useSharedValue, withDecay } from 'react-native-reanimated';
+import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { getWidthHeight, widthScale } from '../../common/util';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import CodingTestScreen2 from './coding2';
-
+const SIZE = 120;
+const BOUNDARY_OFFSET = 50;
 const CodingTestScreen = () => {
     const insets = useSafeAreaInsets();
-    const [value, setValue] = useState('');
-    const textRef = useRef<TextInput>(null);
+    // const [value, setValue] = useState('');
+    // const textRef = useRef<TextInput>(null);
+    const offset = useSharedValue<number>(0);
+    const width = useSharedValue<number>(0);
+
+    const onLayout = (event: LayoutChangeEvent) => {
+        width.value = event.nativeEvent.layout.width;
+    };
+
+    const pan = Gesture.Pan()
+        .onTouchesDown(() => {})
+        .onChange((event) => {
+            offset.value += event.changeX;
+        })
+        .onFinalize((event) => {
+            offset.value = withDecay({
+                velocity: event.velocityX,
+                rubberBandEffect: true,
+                clamp: [-(width.value / 2) + SIZE / 2 + BOUNDARY_OFFSET, width.value / 2 - SIZE / 2 - BOUNDARY_OFFSET],
+            });
+        });
+
+    const animatedStyles = useAnimatedStyle(() => ({
+        transform: [{ translateX: offset.value }],
+    }));
 
     return (
-        <View style={{ flex: 1, marginTop: insets.top, alignItems: 'center', justifyContent: 'center' }}>
-            <KeyboardAwareScrollView style={{}}>
-                {/* <View
-                    style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        width: widthScale(375),
-                        backgroundColor: '#FAFAFA',
-                    }}>
-                    <Pressable
-                        onPress={() => {
-                            textRef.current?.focus();
-                        }}
-                        style={{ borderWidth: 1, marginBottom: widthScale(40), width: widthScale(200) }}>
-                        <View style={{ flexDirection: 'row' }}>
-                            <TextInput
-                                style={{
-                                    fontSize: 30,
-                                    textAlign: 'center',
-                                    backgroundColor: 'red',
-                                    height: 20,
-                                    width: 100,
-                                }}
-                                value={value}
-                            />
-                            <TextInput
-                                caretHidden
-                                ref={textRef}
-                                style={{
-                                    fontSize: 30,
-                                    textAlign: 'center',
-                                    backgroundColor: 'red',
-                                    height: 20,
-                                    width: 100,
-                                }}
-                                onChangeText={setValue}
-                            />
-                        </View>
-                    </Pressable>
-
-                    <Pressable
-                        onPress={() => {}}
-                        style={getWidthHeight(100, 100, {
-                            backgroundColor: 'blue',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                        })}>
-                        <Text style={{ color: '#fff', fontSize: 30 }}>Press answer!!</Text>
-                    </Pressable>
-                </View> */}
-                {/* <View style={{ marginTop: 100 }}>
-                    <Text>
-                        <TextInput style={{ height: 20, width: 100 }} />
-                        is a knowledge community in which we can ask programming questions and we can answer others’
-                        programming questions.
-                    </Text>
+        <View
+            style={{
+                flex: 1,
+                paddingTop: insets.top,
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: '#fff',
+            }}>
+            <GestureHandlerRootView style={styles.container}>
+                <View onLayout={onLayout} style={styles.wrapper}>
+                    <GestureDetector gesture={pan}>
+                        <Animated.View style={[styles.box, animatedStyles]} />
+                    </GestureDetector>
                 </View>
-                <View style={{ width: widthScale(375) }}>
-                    <CodingTestScreen2 />
-                </View> */}
-                <View
-                    style={{
-                        flex: 1,
-                        backgroundColor: 'white',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                    }}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', maxWidth: widthScale(343) }}>
-                        <View style={{ flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap' }}>
-                            <Text style={{ fontSize: 20 }}>Username</Text>
-                            <TextInput style={{ fontSize: 20 }} multiline />
-                        </View>
-                    </View>
-                </View>
-            </KeyboardAwareScrollView>
+            </GestureHandlerRootView>
         </View>
     );
 };
 
 export default CodingTestScreen;
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '100%',
+    },
+    wrapper: {
+        flex: 1,
+        width: '100%',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    box: {
+        height: SIZE,
+        width: SIZE,
+        backgroundColor: '#b58df1',
+        borderRadius: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+});
 // let firstArr = Array.from({ length: count }).map((_, y) => y + 1);
 // let lastArr = Array.from({ length: count })
 //     .map((_, y) => count + count + y - 1)

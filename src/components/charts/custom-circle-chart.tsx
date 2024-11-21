@@ -42,7 +42,7 @@ const CustomCircleChart = (props: CustomProps) => {
 
     const fadeAnims = useSharedValue(animation ? MAX_DEGREE : 0);
     useEffect(() => {
-        fadeAnims.value = withTiming(0, { duration: duration ? duration : 1350 });
+        fadeAnims.value = withTiming(30, { duration: duration ? duration : 1350 });
     }, []);
 
     // 삼각함수로 시초선에서 n도 벌어진 점의 좌표를 구하는 함수
