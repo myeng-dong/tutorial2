@@ -18,7 +18,8 @@ const ExampleScreen = () => {
         { navigation: 'AccordionScreen', title: 'Accordion' },
         { navigation: 'CustomToastScreen', title: 'Toast' },
         { navigation: 'LineChartScreen', title: 'Line-Chart' },
-        // { navigation: 'OnboardingScreen', title: '선물' },
+        { navigation: 'OnboardingScreen', title: 'Masked View' },
+        { navigation: 'HeartrateScreen', title: 'HeartrateScreen' },
     ]);
 
     const btnRender = (props: BtnProps) => {

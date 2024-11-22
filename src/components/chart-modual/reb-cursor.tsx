@@ -19,10 +19,9 @@ const Cursor = ({ cx, chartHeight, selectedValue }: Props) => {
         enableVibrateFallback: true,
         ignoreAndroidSystemSettings: true,
     };
-    useEffect(() => {
-        setValue(selectedValue.value);
-        ReactNativeHapticFeedback.trigger('clockTick', options);
-    }, [selectedValue.value]);
+    // useEffect(() => {
+    //     setValue(selectedValue.value);
+    // }, [selectedValue.value]);
     const path = useDerivedValue(() => {
         const dottedLine = Skia.Path.Make().lineTo(0, chartHeight);
         // const dottedLine = Skia.Path.Make().lineTo(0, chartHeight - cy.value - 20);
@@ -48,13 +47,13 @@ const Cursor = ({ cx, chartHeight, selectedValue }: Props) => {
     });
 
     const animatedText = useDerivedValue(() => {
-        return `${Math.round(value)}`;
+        return `${Math.round(selectedValue.value)}`;
     }, [value]);
 
     return (
         <Group>
-            <Text x={cx} y={30} text={animatedText} font={font} color={'pink'} />
-            <Path path={path} color="#222" style="stroke" strokeJoin="bevel" strokeWidth={1} />
+            <Text x={cx} y={30} text={animatedText} font={font} color={'rgba(252, 14, 133, 0.3)'} />
+            <Path path={path} color="rgba(252, 14, 133, 0.3)" style="stroke" strokeJoin="bevel" strokeWidth={1} />
             {/* <Circle r={10} cx={cx} cy={cy} strokeWidth={10} color={'#eaf984'} style={'stroke'} /> */}
             {/* <Circle r={10} cx={cx} cy={cy} color={'#0d0d0d'} style={'fill'} /> */}
         </Group>

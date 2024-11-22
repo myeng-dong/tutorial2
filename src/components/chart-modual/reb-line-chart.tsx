@@ -11,6 +11,8 @@ import { scalePoint } from 'd3';
 import { clamp, runOnJS, useSharedValue, type SharedValue } from 'react-native-reanimated';
 import Cursor from './reb-cursor';
 import { Canvas } from '@shopify/react-native-skia';
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
+
 export interface RebLineProps {
     x: string;
     y: number;
@@ -89,6 +91,11 @@ const CustomLineChartReb = (props: CustomLineChartProp) => {
     const [showCursor, setShowCursor] = useState(false);
     const fadeAnim = React.useRef(new Animated.Value(animation ? 0 : 1)).current;
 
+    const options = {
+        enableVibrateFallback: true,
+        ignoreAndroidSystemSettings: true,
+    };
+
     useEffect(() => {
         // let sortList = data.sort((a, b) => a.x.localeCompare(b.x));
         let xList = data.map((item) => item.x);
@@ -127,7 +134,7 @@ const CustomLineChartReb = (props: CustomLineChartProp) => {
         const index = Math.floor(e.x / stepX);
         if (!data[index]) return;
         selectedValue.value = data[index].y;
-        runOnJS(setSelectedDate)(data[index]);
+        // runOnJS(setSelectedDate)(data[index]);
         const clampValue = clamp(Math.floor(e.x / stepX) * stepX, chartMargin, chartWidth);
         cx.value = clampValue;
     };

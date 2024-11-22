@@ -8,7 +8,6 @@ import XAxisText from './xaxis-text';
 import Cursor from './cursor';
 import { getYForX, parse } from 'react-native-redash';
 import Gradient from './gradient';
-import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
 type Props = {
     chartWidth: number;

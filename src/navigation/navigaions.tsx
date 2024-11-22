@@ -23,8 +23,9 @@ import AccordionScreen from '../tutorial-example/accordion/accrodion-main';
 import ExampleScreen from '../screen/git-example';
 import CustomToastScreen from '../tutorial-example/toast/custom-toast';
 import LineChartScreen from '../tutorial-example/touchable-line-chart/line-chart';
-import OnboardingScreen from '../tutorial-example/masked-animation/making-main';
+import OnboardingScreen from '../tutorial-example/masked-animation2/making-main';
 import TrabScreen from '../tutorial-example/masked-animation/trab';
+import HeartrateScreen from '../tutorial-example/heart-beat/src/components/heartrate';
 
 export type NavigationParamsList = {
     MainScreen: {};
@@ -49,6 +50,7 @@ export type NavigationParamsList = {
     LineChartScreen: {};
     OnboardingScreen: {};
     TrabScreen: {};
+    HeartrateScreen: {};
 };
 
 const MyTheme = {
@@ -224,6 +226,14 @@ export const AppStackNavigationFNC = () => {
                 <Stack.Screen
                     name="TrabScreen"
                     component={TrabScreen}
+                    options={{
+                        headerShown: false,
+                        // presentation: 'containedTransparentModal',
+                    }}
+                />
+                <Stack.Screen
+                    name="HeartrateScreen"
+                    component={HeartrateScreen}
                     options={{
                         headerShown: false,
                         // presentation: 'containedTransparentModal',

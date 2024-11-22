@@ -8,7 +8,7 @@ import CustomButton from '../../components/skia-component/custom-button';
 import skiaData from '../../common/variables/dummys';
 import { getTextStyles, widthScale } from '../../common/util';
 import CustomLineChart from '../../components/charts/custom-line-chart';
-import CustomLineChartReb, { type RebLineProps } from '../../components/chart-modual.tsx/reb-line-chart';
+import CustomLineChartReb, { type RebLineProps } from '../../components/chart-modual/reb-line-chart';
 interface ScrollViewProps {
     color: string;
 }
