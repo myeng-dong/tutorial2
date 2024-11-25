@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">선물</string>
+    <string moduleConfig="true" name="CodePushDeploymentKey">Tov4uLaWgQGkReixrKzctyaJ_Jj8whv5W0dS4r</string>
 </resources>

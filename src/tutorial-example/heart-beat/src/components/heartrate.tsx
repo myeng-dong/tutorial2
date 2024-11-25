@@ -6,6 +6,7 @@ import { Easing, useDerivedValue, withTiming } from 'react-native-reanimated';
 import { Beat } from './beat';
 import { useLoop, useSharedValues } from './animations';
 import { getWidthHeight } from '../../../../common/util';
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
 const { width, height } = Dimensions.get('window');
 // const src = heart.computeTightBounds();
@@ -15,6 +16,10 @@ const duration = (60 * 200) / bpm;
 const HeartrateScreen = () => {
     const values = useSharedValues(1, 1);
     const [refreshing, setRefreshing] = React.useState(false);
+    const options = {
+        enableVibrateFallback: true,
+        ignoreAndroidSystemSettings: true,
+    };
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
         setTimeout(() => {
@@ -31,7 +36,8 @@ const HeartrateScreen = () => {
                 duration: duration * 3,
                 easing: Easing.linear,
             });
-        }, 100);
+            ReactNativeHapticFeedback.trigger('impactMedium', options);
+        }, 500);
     }, []);
     return (
         <View style={{ flex: 1 }}>

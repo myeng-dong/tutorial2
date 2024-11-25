@@ -1,14 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Platform, Pressable, ScrollView, StatusBar, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { getWidthHeight, widthScale } from '../common/util';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { NavigationParamsList } from '../navigation/navigaions';
+import SplashScreen from 'react-native-splash-screen';
 
 const MainScreen = () => {
     const insets = useSafeAreaInsets();
-
     const navigation = useNavigation<NavigationProp<NavigationParamsList>>();
+    useEffect(() => {
+        SplashScreen.hide();
+    }, []);
     return (
         <View style={{ flex: 1, backgroundColor: '#fff', paddingTop: insets.top }}>
             {Platform.OS == 'ios' && <StatusBar barStyle={'dark-content'} />}

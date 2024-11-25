@@ -17,21 +17,40 @@ const BannerScrollViewScreen = () => {
     const insets = useSafeAreaInsets();
     const [selectedDate, setSelectedDate] = useState<RebLineProps | undefined>();
     const selectedValue = useSharedValue(0);
+    const [datas] = useState<RebLineProps[]>([
+        { x: '8/19', y: 120, label: '8/19' },
+        { x: '8/20', y: 20, label: '8/20' },
+        { x: '8/21', y: 39, label: '8/21' },
+        { x: '8/22', y: 90, label: '8/22' },
+        { x: '8/23', y: 15, label: '8/23' },
+        { x: '8/24', y: 15, label: '8/24' },
+        { x: '8/25', y: 30, label: '8/25' },
+        { x: '8/26', y: 70, label: '8/26' },
+        { x: '8/19', y: 12, label: '8/19' },
+        { x: '8/20', y: 20, label: '8/20' },
+        { x: '8/21', y: 39, label: '8/21' },
+        { x: '8/22', y: 90, label: '8/22' },
+        { x: '8/23', y: 15, label: '8/23' },
+        { x: '8/24', y: 15, label: '8/24' },
+        { x: '8/25', y: 30, label: '8/25' },
+        { x: '8/26', y: 70, label: '8/26' },
+    ]);
 
     return (
         <View style={{ flex: 1, marginTop: insets.top, backgroundColor: '#fff' }}>
             <View
                 style={{
                     alignSelf: 'center',
-                    backgroundColor: '#FFF',
+                    backgroundColor: '#FAFAFA',
                     paddingTop: widthScale(20),
                     borderRadius: widthScale(8),
                     paddingBottom: widthScale(15),
                     paddingLeft: widthScale(10),
                     marginBottom: widthScale(20),
+                    paddingHorizontal: widthScale(20),
                 }}>
                 <CustomLineChartReb
-                    width={widthScale(335)}
+                    width={widthScale(datas.length * 50)}
                     height={widthScale(200)}
                     lineSize={1}
                     lineColor={'#FC0E85'}
@@ -39,15 +58,7 @@ const BannerScrollViewScreen = () => {
                     dotColor={'#FC0E85'}
                     dotSize={widthScale(3)}
                     decimal={0}
-                    data={[
-                        { x: '8/19', y: 12, label: '8/19' },
-                        { x: '8/20', y: 20, label: '8/20' },
-                        { x: '8/21', y: 39, label: '8/21' },
-                        { x: '8/22', y: 90, label: '8/22' },
-                        { x: '8/23', y: 15, label: '8/23' },
-                        { x: '8/24', y: 15, label: '8/24' },
-                        { x: '8/25', y: 30, label: '8/25' },
-                    ]}
+                    data={datas}
                     xLabelFontStyle={getTextStyles('RG', '#757575', 14, 16, {
                         paddingTop: widthScale(4),
                     })}

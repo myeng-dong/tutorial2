@@ -39,6 +39,7 @@ export const NavigationAnimateParentScreen = () => {
                         style={{
                             width: widthScale(300),
                             height: widthScale(300),
+                            borderRadius: widthScale(20),
                         }}
                         sharedTransitionTag="tag"
                     />

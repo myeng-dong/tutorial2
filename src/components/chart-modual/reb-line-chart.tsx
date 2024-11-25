@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Animated, ColorValue, PanResponder, Pressable, ScrollView, Text, TextStyle, View } from 'react-native';
+import { Animated, ColorValue, PanResponder, Pressable, Text, TextStyle, View } from 'react-native';
 import {
     Gesture,
     GestureDetector,
     GestureHandlerRootView,
+    ScrollView,
     type PanGestureHandlerEventPayload,
 } from 'react-native-gesture-handler';
 import { getWidthHeight, widthScale } from '../../common/util';
@@ -73,7 +74,7 @@ const CustomLineChartReb = (props: CustomLineChartProp) => {
         yLabelCounts = 6,
         chartBackgroundColor = '#fff',
         chartFillColor,
-        animation = true,
+        animation = false,
         selectedValue,
         setSelectedDate,
     } = props;
@@ -84,12 +85,14 @@ const CustomLineChartReb = (props: CustomLineChartProp) => {
     const [chartMargin, setChartMargin] = useState<number>(widthScale(0));
     const [minYDomain, setMinYDomain] = useState<number>(0);
     const [maxYDomain, setMaxYDomain] = useState<number>(1);
+    const [scrollX, setScrollX] = useState<number>(0);
     const [loadEnd, setLoadEnd] = useState(false);
     const yLabelCount = yLabelCounts;
     const labelMargin = 0;
     const cx = useSharedValue(20);
     const [showCursor, setShowCursor] = useState(false);
     const fadeAnim = React.useRef(new Animated.Value(animation ? 0 : 1)).current;
+    const indexShare = useSharedValue(0);
 
     const options = {
         enableVibrateFallback: true,
@@ -122,7 +125,7 @@ const CustomLineChartReb = (props: CustomLineChartProp) => {
     const xDomain = data.map((dataPoint: RebLineProps) => dataPoint.label);
 
     // range of the x scale
-    const xRange = [chartMargin, chartWidth];
+    const xRange = [chartMargin, widthScale(373)];
 
     // Create the x scale
     const x = scalePoint().domain(xDomain).range(xRange).padding(0);
@@ -131,11 +134,11 @@ const CustomLineChartReb = (props: CustomLineChartProp) => {
 
     const handleGestureEvent = (e: PanGestureHandlerEventPayload) => {
         'worklet';
-        const index = Math.floor(e.x / stepX);
+        const index = Math.floor((e.x + scrollX) / stepX);
         if (!data[index]) return;
+        indexShare.value = index;
         selectedValue.value = data[index].y;
-        // runOnJS(setSelectedDate)(data[index]);
-        const clampValue = clamp(Math.floor(e.x / stepX) * stepX, chartMargin, chartWidth);
+        const clampValue = clamp(Math.floor((e.x + scrollX) / stepX) * stepX, chartMargin, chartWidth);
         cx.value = clampValue;
     };
     const pan = Gesture.Pan()
@@ -145,26 +148,20 @@ const CustomLineChartReb = (props: CustomLineChartProp) => {
         .onTouchesUp(() => {
             runOnJS(setShowCursor)(false);
         })
-        .onBegin((e) => {
-            handleGestureEvent(e);
-        })
-        .onChange((e) => {
+        .onFinalize((e) => {
             handleGestureEvent(e);
         });
-
-    // useEffect(() => {
-    //     if (chartWidth != 0) return setLoadEnd(true);
-    // }, [chartWidth]);
 
     return (
         <>
             <GestureHandlerRootView style={{ flex: 1 }}>
                 <View
                     style={{
-                        padding: 1.5,
-                        width: width,
+                        paddingLeft: widthScale(10),
+                        paddingVertical: widthScale(20),
+                        width: widthScale(334),
                         height: height,
-                        overflow: 'visible',
+                        backgroundColor: '#fff',
                     }}>
                     {/* background */}
                     <View
@@ -337,9 +334,15 @@ const CustomLineChartReb = (props: CustomLineChartProp) => {
                             <ScrollView
                                 showsHorizontalScrollIndicator={false}
                                 horizontal
-                                scrollEnabled={false}
+                                // scrollEnabled={false}
                                 style={{ flex: 1 }}
-                                contentContainerStyle={{ paddingHorizontal: widthScale(7) }}>
+                                contentContainerStyle={{
+                                    paddingHorizontal: widthScale(7),
+                                    paddingRight: widthScale(40),
+                                }}
+                                onScroll={(e) => {
+                                    setScrollX(e.nativeEvent.contentOffset.x);
+                                }}>
                                 <View style={{ width: width }}>
                                     {/* InnerLine, ChartComponent */}
                                     <View
@@ -350,6 +353,7 @@ const CustomLineChartReb = (props: CustomLineChartProp) => {
                                             borderLeftWidth: 1,
                                             borderBottomWidth: 1,
                                             borderColor: borderColor,
+                                            paddingHorizontal: chartMargin,
                                         }}
                                         onLayout={(e) => {
                                             setChartWidth(e.nativeEvent.layout.width);
@@ -408,18 +412,7 @@ const CustomLineChartReb = (props: CustomLineChartProp) => {
                                             </View>
                                         )}
                                     </View>
-                                    <Canvas
-                                        style={{
-                                            position: 'absolute',
-                                            top: 0,
-                                            right: 0,
-                                            width: chartWidth,
-                                            height: chartHeight,
-                                        }}>
-                                        {showCursor && (
-                                            <Cursor cx={cx} chartHeight={chartHeight} selectedValue={selectedValue} />
-                                        )}
-                                    </Canvas>
+
                                     {/* Dot */}
                                     {showDot && chartHeight != 0 && (
                                         <View
@@ -543,6 +536,24 @@ const CustomLineChartReb = (props: CustomLineChartProp) => {
                                             })}
                                         </View>
                                     )}
+                                    <Canvas
+                                        style={{
+                                            position: 'absolute',
+                                            top: 0,
+                                            left: 0,
+                                            width: chartWidth + widthScale(20),
+                                            height: chartHeight,
+                                            backgroundColor: 'transparent',
+                                        }}>
+                                        {selectedValue.value != 0 && (
+                                            <Cursor
+                                                cx={cx}
+                                                chartHeight={chartHeight}
+                                                selectedValue={selectedValue}
+                                                indexShare={indexShare}
+                                            />
+                                        )}
+                                    </Canvas>
                                 </View>
                             </ScrollView>
                         </GestureDetector>
@@ -558,6 +569,15 @@ const CustomLineChartReb = (props: CustomLineChartProp) => {
                     })}
                 />
             )}
+            <View style={{ width: widthScale(200), height: widthScale(100), backgroundColor: '#Aaa' }}>
+                <View
+                    style={{
+                        width: widthScale(400),
+                        height: widthScale(50),
+                        backgroundColor: '#a00',
+                        position: 'absolute',
+                    }}></View>
+            </View>
         </>
     );
 };
