@@ -1,16 +1,20 @@
 import React, { useState } from 'react';
-import { LayoutChangeEvent, StyleSheet, View } from 'react-native';
-import Animated, { useAnimatedStyle, useSharedValue, withDecay } from 'react-native-reanimated';
+import { Image, LayoutChangeEvent, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import Animated, { useAnimatedStyle, useSharedValue, withDecay, withSpring } from 'react-native-reanimated';
 import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { getWidthHeight, widthScale } from '../../common/util';
+import ICONS from '../../common/variables/icons';
 const SIZE = 120;
 const BOUNDARY_OFFSET = 50;
 const CodingTestScreen = () => {
     const insets = useSafeAreaInsets();
     // const [value, setValue] = useState('');
     // const textRef = useRef<TextInput>(null);
-    const offset = useSharedValue<number>(0);
+    const height = widthScale(375);
+    const offset = useSharedValue<number>(height);
     const width = useSharedValue<number>(0);
+    const [value, setValue] = useState(1);
 
     const onLayout = (event: LayoutChangeEvent) => {
         width.value = event.nativeEvent.layout.width;
@@ -30,7 +34,7 @@ const CodingTestScreen = () => {
         });
 
     const animatedStyles = useAnimatedStyle(() => ({
-        transform: [{ translateX: offset.value }],
+        height: withSpring(offset.value, { damping: 80, mass: 1 }),
     }));
 
     return (
@@ -38,17 +42,62 @@ const CodingTestScreen = () => {
             style={{
                 flex: 1,
                 paddingTop: insets.top,
-                alignItems: 'center',
-                justifyContent: 'center',
                 backgroundColor: '#fff',
             }}>
-            <GestureHandlerRootView style={styles.container}>
-                <View onLayout={onLayout} style={styles.wrapper}>
-                    <GestureDetector gesture={pan}>
-                        <Animated.View style={[styles.box, animatedStyles]} />
-                    </GestureDetector>
-                </View>
-            </GestureHandlerRootView>
+            <View style={{ height: widthScale(375) }}>
+                <Image
+                    source={{}}
+                    style={{
+                        position: 'absolute',
+                        width: widthScale(375),
+                        height: widthScale(375),
+                        tintColor: '#0D35842A',
+                    }}
+                />
+                {/* <Animated.View
+                    style={[
+                        {
+                            position: 'absolute',
+                            overflow: 'hidden',
+                            backgroundColor: '#fff',
+                            top: 0,
+                            width: widthScale(375),
+                        },
+                        animatedStyles,
+                    ]}>
+                    <Image
+                        source={{ uri: 'https://cdn.pixabay.com/photo/2013/07/12/15/36/fingerprint-150159_1280.png' }}
+                        style={{
+                            width: widthScale(375),
+                            height: widthScale(375),
+                            tintColor: 'red',
+                        }}
+                    />
+                </Animated.View> */}
+            </View>
+            <Pressable
+                onPress={() => {
+                    const nowWidth = 1220;
+                    const itemWidth = 10;
+                    const length = 10;
+                    console.log((nowWidth % (itemWidth * length)) / itemWidth);
+                }}
+                style={{ width: widthScale(375), paddingVertical: widthScale(30), backgroundColor: '#EEE' }}>
+                <Text>지문테스트</Text>
+            </Pressable>
+            {/* <Pressable
+                onPress={() => {
+                    if (value != 6) {
+                        setValue(value + 1);
+                        offset.value = widthScale(375) - value * widthScale(75);
+                    } else {
+                        setValue(1);
+                        offset.value = widthScale(375);
+                    }
+                }}
+                style={{ width: widthScale(375), paddingVertical: widthScale(30), backgroundColor: '#EEE' }}>
+                <Text>지문테스트</Text>
+            </Pressable> */}
         </View>
     );
 };

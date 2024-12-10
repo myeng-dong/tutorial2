@@ -13,7 +13,11 @@
         "codepush:android": "appcenter codepush release-react -a hyengchang-itez.io/Tutorial-Android -m",
         "codepush:ios": "appcenter codepush release-react -a hyengchang-itez.io/Tutorial -m",
         "codepush:ioskey": "appcenter codepush deployment list -a hyengchang-itez.io/Tutorial -k",
-        "codepush:androidkey": "appcenter codepush deployment list -a hyengchang-itez.io/Tutorial-Android -k"
+        "codepush:androidkey": "appcenter codepush deployment list -a hyengchang-itez.io/Tutorial-Android -k",
+        "codepush:deleteproand": "appcenter codepush deployment clear -a hyengchang-itez.io/Tutorial-Android Production",
+        "codepush:deleteproios": "appcenter codepush deployment clear -a hyengchang-itez.io/Tutorial Production",
+        "codepush:deletestaand": "appcenter codepush deployment clear -a hyengchang-itez.io/Tutorial-Android Staging",
+        "codepush:deletestaios": "appcenter codepush deployment clear -a hyengchang-itez.io/Tutorial Staging"
     },
     "dependencies": {
         "@react-native-async-storage/async-storage": "^2.1.0",
@@ -43,6 +47,7 @@
         "react-native-haptic-feedback": "^2.3.3",
         "react-native-image-pan-zoom": "^2.1.12",
         "react-native-keyboard-aware-scroll-view": "^0.9.5",
+        "react-native-keyboard-controller": "^1.14.5",
         "react-native-keyboard-spacer": "0.4.1",
         "react-native-linear-gradient": "^2.8.3",
         "react-native-modal": "^13.0.1",

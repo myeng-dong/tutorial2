@@ -1,8 +1,8 @@
 import { PixelRatio, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import data from './src/data/data';
 import { Canvas, Circle, Group, Image, Mask, SkImage, makeImageFromView } from '@shopify/react-native-skia';
-import { useSharedValue, withTiming } from 'react-native-reanimated';
+import { useSharedValue, withDelay, withTiming } from 'react-native-reanimated';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { getNavigation } from '../../common/util';
@@ -47,6 +47,7 @@ const OnboardingScreen = () => {
             setActive(false);
         }
     };
+
     return (
         <View style={styles.container}>
             <View ref={ref} collapsable={false}>

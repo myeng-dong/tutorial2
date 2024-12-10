@@ -6,9 +6,12 @@ import { KeyboardAvoidingView, Platform, StatusBar, Text, useColorScheme, View }
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import MainScreen from './src/screen';
 import { AppStackNavigationFNC } from './src/navigation/navigaions';
+import useCodePush from './src/common/utils/usecodepush';
+import CodePushManager from './src/components/local/codepush-manager';
 
 const App = () => {
     const isDarkMode = useColorScheme() === 'dark';
+    const { isUpdating, codePushStatus, version } = useCodePush();
 
     const backgroundStyle = {
         backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
@@ -26,7 +29,15 @@ const App = () => {
         }
     }, []);
 
-    return <AppStackNavigationFNC />;
+    return (
+        <>
+            {isUpdating ? (
+                <CodePushManager codePushStatus={codePushStatus} version={version} />
+            ) : (
+                <AppStackNavigationFNC />
+            )}
+        </>
+    );
 };
 
 // const test = {

@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { FlatList, Pressable, Text, TextInput, View } from 'react-native';
 import { getTextStyles, widthScale } from '../../common/util';
+import { KeyboardProvider, useKeyboardHandler } from 'react-native-keyboard-controller';
+import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated';
 // const { PLUS_BLACK_ICON, SEND_FOCUS_ICON, SEND_NOFOCUS_ICON } = ICONS;
 export type Chat = {
     __typename?: 'Chat';
@@ -29,9 +31,47 @@ const ChatKeyBoard = () => {
     const [mode, setMode] = useState<'menu' | 'photos' | 'albums' | 'camera'>('menu');
     const flatListRef = useRef<FlatList>(null);
 
-    useEffect(() => {
-        console.log(mode);
-    }, [mode]);
+    const useKeyboardAnimation = () => {
+        const progress = useSharedValue(0);
+        const height = useSharedValue(0);
+
+        useKeyboardHandler({
+            onMove: (e) => {
+                'worklet';
+                progress.value = e.progress;
+                height.value = e.height;
+            },
+            onInteractive: (e) => {
+                'worklet';
+
+                progress.value = e.progress;
+                height.value = e.height;
+            },
+        });
+        return { height, progress };
+    };
+    const { height } = useKeyboardAnimation();
+    const scrollViewStyle = useAnimatedStyle(
+        () => ({
+            transform: [{ translateY: -height.value }],
+        }),
+        [],
+    );
+    const textInputStyle = useAnimatedStyle(
+        () => ({
+            height: 50,
+            width: '100%',
+            backgroundColor: '#BCBCBC',
+            transform: [{ translateY: -height.value }],
+        }),
+        [],
+    );
+    const fakeView = useAnimatedStyle(
+        () => ({
+            height: height.value,
+        }),
+        [],
+    );
 
     return (
         <View style={{ flex: 1 }}>
@@ -39,6 +79,9 @@ const ChatKeyBoard = () => {
                 ref={flatListRef}
                 style={{ backgroundColor: 'blue' }}
                 data={chatData}
+                ListHeaderComponent={() => {
+                    return <Animated.View style={fakeView} />;
+                }}
                 renderItem={(event) => {
                     return (
                         <View>
@@ -72,7 +115,8 @@ const ChatKeyBoard = () => {
                 }}
                 onEndReachedThreshold={0.2}
             />
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', height: 50 }}>
+            <Animated.View
+                style={[textInputStyle, { flexDirection: 'row', justifyContent: 'space-between', height: 50 }]}>
                 <View style={{ backgroundColor: 'red', flex: 1 }}>
                     <TextInput
                         ref={refInput}
@@ -96,7 +140,7 @@ const ChatKeyBoard = () => {
                     }}>
                     <Text>POST</Text>
                 </Pressable>
-            </View>
+            </Animated.View>
         </View>
     );
 };

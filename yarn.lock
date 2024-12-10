@@ -4449,6 +4449,7 @@ __metadata:
     react-native-haptic-feedback: "npm:^2.3.3"
     react-native-image-pan-zoom: "npm:^2.1.12"
     react-native-keyboard-aware-scroll-view: "npm:^0.9.5"
+    react-native-keyboard-controller: "npm:^1.14.5"
     react-native-keyboard-spacer: "npm:0.4.1"
     react-native-linear-gradient: "npm:^2.8.3"
     react-native-modal: "npm:^13.0.1"
@@ -10721,6 +10722,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-is-edge-to-edge@npm:^1.1.6":
+  version: 1.1.6
+  resolution: "react-native-is-edge-to-edge@npm:1.1.6"
+  peerDependencies:
+    react: ">=18.2.0"
+    react-native: ">=0.73.0"
+  checksum: 10c0/5690e521e8310d21643634a8d0dacd524e19b76695f347b26f649fcac156a7a901fd6daef7f78482381a41e8445f4552f40ade13790fdf112fab15b0f54dbabd
+  languageName: node
+  linkType: hard
+
 "react-native-keyboard-aware-scroll-view@npm:^0.9.5":
   version: 0.9.5
   resolution: "react-native-keyboard-aware-scroll-view@npm:0.9.5"
@@ -10730,6 +10741,19 @@ __metadata:
   peerDependencies:
     react-native: ">=0.48.4"
   checksum: 10c0/932c724f86ba355f1a1db938123eef67844550dd6e2d117222eff0012a47c6a293ad79c965e16930e5eb14adb58a5c340c00e03eeabbe3d78229236125b8a6aa
+  languageName: node
+  linkType: hard
+
+"react-native-keyboard-controller@npm:^1.14.5":
+  version: 1.14.5
+  resolution: "react-native-keyboard-controller@npm:1.14.5"
+  dependencies:
+    react-native-is-edge-to-edge: "npm:^1.1.6"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+    react-native-reanimated: ">=3.0.0"
+  checksum: 10c0/ca9e67b7685f8f4f96efde849b9bca107dbc086fafb57b72793e3c3dea03a726f026be2fd3867a22e1e9b51e60d9eaea9050f030211d16829ac814547ac9eb73
   languageName: node
   linkType: hard
 

@@ -3,6 +3,7 @@ import { FlatList, KeyboardAvoidingView, Platform, Text, TextInput, View } from 
 import { getTextStyles, widthScale } from '../../common/util';
 import ChatKeyBoard from '../../components/chat/chatkeyboard';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { KeyboardProvider } from 'react-native-keyboard-controller';
 // const { PLUS_BLACK_ICON, SEND_FOCUS_ICON, SEND_NOFOCUS_ICON } = ICONS;
 export type Chat = {
     __typename?: 'Chat';
@@ -34,7 +35,10 @@ const ChatKeyBoardScreen = () => {
 
     return (
         <View style={{ flex: 1, marginBottom: insets.bottom }}>
-            <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'height' : 'height'}>
+            <KeyboardAvoidingView
+                style={{ flex: 1 }}
+                behavior={Platform.OS === 'ios' ? 'height' : 'height'}
+                enabled={false}>
                 <ChatKeyBoard />
             </KeyboardAvoidingView>
         </View>

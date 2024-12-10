@@ -5,6 +5,7 @@ import {
     GestureDetector,
     GestureHandlerRootView,
     ScrollView,
+    type GestureTouchEvent,
     type PanGestureHandlerEventPayload,
 } from 'react-native-gesture-handler';
 import { getWidthHeight, widthScale } from '../../common/util';
@@ -132,6 +133,15 @@ const CustomLineChartReb = (props: CustomLineChartProp) => {
 
     const stepX = x.step();
 
+    const handleGestureEvent2 = (e: GestureTouchEvent) => {
+        'worklet';
+        const index = Math.floor((e.allTouches[0].x + scrollX) / stepX);
+        if (!data[index]) return;
+        indexShare.value = index;
+        selectedValue.value = data[index].y;
+        const clampValue = clamp(Math.floor((e.allTouches[0].x + scrollX) / stepX) * stepX, chartMargin, chartWidth);
+        cx.value = clampValue;
+    };
     const handleGestureEvent = (e: PanGestureHandlerEventPayload) => {
         'worklet';
         const index = Math.floor((e.x + scrollX) / stepX);
@@ -141,16 +151,9 @@ const CustomLineChartReb = (props: CustomLineChartProp) => {
         const clampValue = clamp(Math.floor((e.x + scrollX) / stepX) * stepX, chartMargin, chartWidth);
         cx.value = clampValue;
     };
-    const pan = Gesture.Pan()
-        .onTouchesDown(() => {
-            runOnJS(setShowCursor)(true);
-        })
-        .onTouchesUp(() => {
-            runOnJS(setShowCursor)(false);
-        })
-        .onFinalize((e) => {
-            handleGestureEvent(e);
-        });
+    const pan = Gesture.Pan().onTouchesUp((e) => {
+        handleGestureEvent2(e);
+    });
 
     return (
         <>
