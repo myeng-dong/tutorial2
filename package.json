@@ -20,6 +20,7 @@
         "codepush:deletestaios": "appcenter codepush deployment clear -a hyengchang-itez.io/Tutorial Staging"
     },
     "dependencies": {
+        "@faker-js/faker": "^9.3.0",
         "@react-native-async-storage/async-storage": "^2.1.0",
         "@react-native-community/cli": "^15.0.1",
         "@react-native-community/netinfo": "^11.3.2",
@@ -34,6 +35,7 @@
         "jetifier": "^2.0.0",
         "lottie-react-native": "^6.7.2",
         "luxon": "^3.5.0",
+        "moti": "^0.29.0",
         "react": "18.2.0",
         "react-native": "0.74.3",
         "react-native-animatable": "^1.4.0",
